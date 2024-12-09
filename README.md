@@ -14,3 +14,7 @@ git pull
 
 Ascii:
 https://python-tcod.readthedocs.io/en/latest/tcod/charmap-reference.html
+
+
+
+Link para entrar no Trello : https://trello.com/invite/b/673b28aed72e24907e97b588/ATTIaa29e09cc58d09b1f6e0a5be334d12bf7D8A380C/trabalho-de-lp
