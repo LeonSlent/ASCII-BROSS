@@ -9,8 +9,13 @@ maxX = 120
 relogio = 0
 matriz = []
 
+#Player_um
+delay_um = 0
 bichoCabeca_um = "(-_-)"
 bichoPerna_um = "/ \\"
+
+#Player_dois
+delay_dois = 0
 bichoCabeca_dois = "(*_*)"
 bichoPerna_dois = "/ \\"
 
@@ -24,6 +29,7 @@ bomb_exist = False
 relogioExplode = 0
 bombX = 0
 bombY = 0
+explosioSym = "#"
 
 bichoY_um = 1
 bichoX_um = 10
@@ -57,13 +63,6 @@ def desenhaTela(matriz):
     print(tela)
     print(separador)
 
-'''def bombExplode(relogioExplode):
-    for relogioExplode in range (500):
-        bomb_active = True
-        return(bomb_active)'''
-    
-
-
 
 #Parte principal do programa
 if __name__ == '__main__':
@@ -95,52 +94,64 @@ if __name__ == '__main__':
 
         matriz[10][10] = obsUm
 
-        if bomb_active == True and relogioExplode < 1000:
+        if bomb_active == True and relogioExplode <= 1000:
             if bomb_exist == False:
                 bombX = bichoX_um + 2
                 bombY = bichoY_um + 1 
                 matriz[bombY][bombX] = bomb
                 relogioExplode += 1
                 bomb_exist = True
-            else:
+            elif bomb_exist == True and relogioExplode < 500:
                 matriz[bombY][bombX] = bomb
                 relogioExplode += 1
-        elif relogioExplode >= 1000 and bomb_exist == True:
-            relogioExplode = 0
-            bomb_active = False
-            bomb_exist = False   
+            elif relogioExplode >= 500 and relogioExplode <= 1000 and bomb_exist == True:
+                matriz[bombY+1][bombX] = explosioSym
+                matriz[bombY+2][bombX] = explosioSym
+                matriz[bombY-1][bombX] = explosioSym
+                matriz[bombY-2][bombX] = explosioSym
+                matriz[bombY][bombX+1] = explosioSym
+                matriz[bombY][bombX+2] = explosioSym
+                matriz[bombY][bombX-1] = explosioSym
+                matriz[bombY][bombX-2] = explosioSym
+                relogioExplode += 1
+                if relogioExplode == 1000 and bomb_exist == True:
+                    relogioExplode = 0
+                    bomb_active = False
+                    bomb_exist = False
+                            
+
 
         #impressão na tela
         desenhaTela(matriz)
 
-
-        #atualizando relogio do jogo
-        relogio += 1
-
-
-
         #controlando personages
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
-
-            if symbol == 'a':
-                bichoX_um -= 1
-            elif symbol == 'd':
-                bichoX_um += 1
-            elif symbol == 'w':
-                bichoY_um -= 1
-            elif symbol == 's':
-                bichoY_um += 1
-            elif symbol == 'f':
-                bomb_active = True
+            if delay_um == 0:
+                if symbol == 'a':
+                    bichoX_um -= 1
+                elif symbol == 'd':
+                    bichoX_um += 1
+                elif symbol == 'w':
+                    bichoY_um -= 1
+                elif symbol == 's':
+                    bichoY_um += 1
+                elif symbol == 'f':
+                    bomb_active = True
+            elif delay_um == 10:
+                delay_um = 0
                 
-            elif symbol == 'j':
-                bichoX_dois -= 1
-            elif symbol == 'l':
-                bichoX_dois += 1
-            elif symbol == 'i':
-                bichoY_dois -= 1
-            elif symbol == 'k':
-                bichoY_dois += 1
+            if delay_dois == 0:    
+                if symbol == 'j':
+                    bichoX_dois -= 1
+                elif symbol == 'l':
+                    bichoX_dois += 1
+                elif symbol == 'i':
+                    bichoY_dois -= 1
+                elif symbol == 'k':
+                    bichoY_dois += 1
+                delay_dois += 1
+            elif delay_dois == 10:
+                delay_dois = 0
 
 
