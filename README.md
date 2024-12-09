@@ -11,3 +11,6 @@ git add .
 git commit 
 git push
 git pull
+
+Ascii:
+https://python-tcod.readthedocs.io/en/latest/tcod/charmap-reference.htm
