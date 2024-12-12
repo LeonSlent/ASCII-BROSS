@@ -11,13 +11,11 @@ matriz = []
 
 #Player_um
 delay_um = 0
-bichoCabeca_um = "(-_-)"
-bichoPerna_um = "/ \\"
+bichoCabeca_um = "$"
 
 #Player_dois
 delay_dois = 0
-bichoCabeca_dois = "(*_*)"
-bichoPerna_dois = "/ \\"
+bichoCabeca_dois = "%"
 
 obsUm = "░"
 
@@ -52,16 +50,27 @@ def desenhaTela(matriz):
         função que desenha a tela do jogo imprimindo uma sequencia de
         linhas de strings com conteúdo da matriz de controle do jogo
     '''
-    separador = "#" * 120
+    separador = "#" * (maxX + 2)  # Ajusta o separador para incluir as paredes
     print(separador)
     tela = ''
     for y in range(maxY):
-        for x in range(maxX):            
-            tela += matriz[y][x]
-       
-        tela+='\n'
-    print(tela)
+        linha = '#'  # Adiciona a parede esquerda
+        for x in range(maxX):
+            linha += matriz[y][x]
+        linha += '#'  # Adiciona a parede direita
+        tela += linha + '\n'
+    print(tela, end="")
     print(separador)
+
+def verificar_colisao(novo_y, novo_x, matriz):
+    '''
+        Verifica se uma posição na matriz está disponível para movimentação.
+        Retorna True se a posição está livre e False se há colisão.
+    '''
+    # Garantir que a posição está dentro dos limites da matriz
+    if 0 <= novo_y < maxY and 0 <= novo_x < maxX:
+        return matriz[novo_y][novo_x] == VAZIO  # Retorna True se está vazio
+    return False  # Fora dos limites, não pode se mover
 
 
 #Parte principal do programa
@@ -87,10 +96,10 @@ if __name__ == '__main__':
 
         #colocar personagens dentro da matriz
         matriz[bichoY_um][bichoX_um] = bichoCabeca_um
-        matriz[bichoY_um+1][bichoX_um+1] = bichoPerna_um
+
         
         matriz[bichoY_dois][bichoX_dois] = bichoCabeca_dois
-        matriz[bichoY_dois+1][bichoX_dois+1] = bichoPerna_dois
+
 
         matriz[10][10] = obsUm
 
@@ -127,31 +136,27 @@ if __name__ == '__main__':
         #controlando personages
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
-            if delay_um == 0:
-                if symbol == 'a':
-                    bichoX_um -= 1
-                elif symbol == 'd':
-                    bichoX_um += 1
-                elif symbol == 'w':
-                    bichoY_um -= 1
-                elif symbol == 's':
-                    bichoY_um += 1
-                elif symbol == 'f':
-                    bomb_active = True
-            elif delay_um == 10:
-                delay_um = 0
-                
-            if delay_dois == 0:    
-                if symbol == 'j':
-                    bichoX_dois -= 1
-                elif symbol == 'l':
-                    bichoX_dois += 1
-                elif symbol == 'i':
-                    bichoY_dois -= 1
-                elif symbol == 'k':
-                    bichoY_dois += 1
-                delay_dois += 1
-            elif delay_dois == 10:
-                delay_dois = 0
+
+            if symbol == 'a' and verificar_colisao(bichoY_um, bichoX_um - 1, matriz):
+                bichoX_um -= 1
+            elif symbol == 'd' and verificar_colisao(bichoY_um, bichoX_um + 1, matriz):
+                bichoX_um += 1
+            elif symbol == 'w' and verificar_colisao(bichoY_um - 1, bichoX_um, matriz):
+                bichoY_um -= 1
+            elif symbol == 's' and verificar_colisao(bichoY_um + 1, bichoX_um, matriz):
+                bichoY_um += 1
+            elif symbol == 'f':
+                bomb_active = True
+
+            if symbol == 'j' and verificar_colisao(bichoY_dois, bichoX_dois - 1, matriz):
+                bichoX_dois -= 1
+            elif symbol == 'l' and verificar_colisao(bichoY_dois, bichoX_dois + 1, matriz):
+                bichoX_dois += 1
+            elif symbol == 'i' and verificar_colisao(bichoY_dois - 1, bichoX_dois, matriz):
+                bichoY_dois -= 1
+            elif symbol == 'k' and verificar_colisao(bichoY_dois + 1, bichoX_dois, matriz):
+                bichoY_dois += 1
+            elif symbol == 'h':
+                bomb_active = True
 
 
