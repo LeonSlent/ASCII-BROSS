@@ -7,6 +7,9 @@ maxY = 30
 maxX = 120
 matriz = []
 
+contador = 1
+relogio = 0
+controle = False
 
 logo = [
     " ██████╗  █████╗ ███╗   ███╗███████╗   ██████╗  ██████╗ ███╗   ███╗██████╗ ",
@@ -23,43 +26,60 @@ menu = [
     "[C] SAIR     "
 ]
 
-bomba = [r"             . . .             "
-         r"              \|/              "
-         r"            `--+--'            "
-         r"              /|\              "
-         r"             ' | '             "
-         r"           ,--'#`--.           "
-         r"           |#######|           "
-         r"        _.-'#######`-._        "
-         r"     ,-'###############`-.     "
-         r"   ,'#####################`,   "
-         r"  /#########################\  "
-         r" |###########################| "
-         r"|#############################|"
-         r"|#############################|"
-         r"|#############################|"
-         r"|#############################|"
-         r" |###########################| "
-         r"  \#########################/  "
-         r"   `.#####################,'   "
-         r"     `._###############_,'     "
-         r"         `--..#####..--'       "
-         ]
+bomba = [
+         " " * 44 + "             . . .             " + 45 * " ",
+         " " * 44 + "              \|/              " + 45 * " ",
+         " " * 44 + "            `--+--'            " + 45 * " ",
+         " " * 44 + "              /|\              " + 45 * " ",
+         " " * 44 + "             ' | '             " + 45 * " ",
+         " " * 44 + "           ,--'#`--.           " + 45 * " ",
+         " " * 44 + "           |#######|           " + 45 * " ",
+         " " * 44 + "        _.-'#######`-._        " + 45 * " ",
+         " " * 44 + "     ,-'###############`-.     " + 45 * " ",
+         " " * 44 + "   ,'#####################`,   " + 45 * " ",
+         " " * 44 + "  /#########################\  " + 45 * " ",
+         " " * 44 + " |###########################| " + 45 * " ",
+         " " * 44 + "|#############################|" + 45 * " ",
+         " " * 44 + "|#############################|" + 45 * " ",
+         " " * 44 + "|#############################|" + 45 * " ",
+         " " * 44 + "|#############################|" + 45 * " ",
+         " " * 44 + " |###########################| " + 45 * " ",
+         " " * 44 + "  \#########################/  " + 45 * " ",
+         " " * 44 + "   `.#####################,'   " + 45 * " ",
+         " " * 44 + "     `._###############_,'     " + 45 * " ",
+         " " * 44 + "         `--..#####..--'       " + 45 * " "
+]
+
+
+def desenhaBomba(matriz):
+    #transição de tela
+    inicio = maxY - contador
+    centro = int((maxX - len(bomba[0])) / 2)
+    for i, linha in enumerate(bomba):
+        for j, caractere in enumerate(linha):
+            if inicio + i > -1:
+                matriz[inicio + i][centro + j] = caractere
+
+        if inicio + i == maxY - 1:
+            break
 
 
 
 
 def desenhaLogo(matriz):
-    inicioLogo = int((maxX - len(logo[0])) / 2)
+    centro = int((maxX - len(logo[0])) / 2)
 
     for i, linha in enumerate(logo):
         for j, caractere in enumerate(linha):
-            matriz[5 + i][inicioLogo + j] = caractere
+            matriz[5 + i][centro + j] = caractere
 
-def desenharMenu(matriz):
+def desenhaMenu(matriz):
+    centro = int((maxX - len(menu[0])) / 2) 
     for i, linha in enumerate(menu):
         for j, caractere in enumerate(linha):
-            matriz[15 + i][53 + j] = caractere
+            matriz[15 + i][centro + j] = caractere
+
+
 
 
 def limparTela(matriz):
@@ -113,8 +133,10 @@ if __name__ == '__main__':
 
         desenhaLogo(matriz)
 
-        desenharMenu(matriz)
+        desenhaMenu(matriz)
 
+
+        
         # impressão na tela
         desenhaTela(matriz)
 
@@ -126,5 +148,16 @@ if __name__ == '__main__':
             elif symbol in 'xX':
                 pass
             elif symbol in 'Cc':
-                exit()
-                
+                while True:
+                    WConio2.gotoxy(0, 0)
+                    limparTela(matriz)
+                    if contador < 30:
+                        desenhaLogo(matriz)
+                        desenhaMenu(matriz)
+                    desenhaBomba(matriz)
+
+                    if relogio % 50 == 0:
+                        contador = contador + 1
+
+                    relogio = relogio + 1
+                    desenhaTela(matriz)
