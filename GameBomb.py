@@ -9,30 +9,38 @@ maxX = 120
 relogio = 0
 matriz = []
 
+bomb = "@"
+explosioSym = "#"
+
 #Player_um
 delay_um = 0
 bichoCabeca_um = "$"
+bichoY_um = 1
+bichoX_um = 10
+#Ativar a bomba_um
+bomb_active_um = False
+#Verificar se existe outra bomba_um
+bomb_exist_um = False
+relogioExplode_um = 0
+bombX_um = 0
+bombY_um = 0
+
 
 #Player_dois
 delay_dois = 0
 bichoCabeca_dois = "%"
+bichoY_dois = 1
+bichoX_dois = 30
+#Ativar a bomba_dois
+bomb_active_dois = False
+#Verificar se existe outra bomba_dois
+bomb_exist_dois = False
+relogioExplode_dois = 0
+bombX_dois = 0
+bombY_dois = 0
 
 obsUm = "░"
 
-bomb = "@"
-#Ativar a bomba
-bomb_active = False
-#Verificar se existe outra bomba
-bomb_exist = False
-relogioExplode = 0
-bombX = 0
-bombY = 0
-explosioSym = "#"
-
-bichoY_um = 1
-bichoX_um = 10
-bichoY_dois = 1
-bichoX_dois = 30
 
 
 def limparTela(matriz):
@@ -103,30 +111,55 @@ if __name__ == '__main__':
 
         matriz[10][10] = obsUm
 
-        if bomb_active == True and relogioExplode <= 1000:
-            if bomb_exist == False:
-                bombX = bichoX_um + 2
-                bombY = bichoY_um + 1 
-                matriz[bombY][bombX] = bomb
-                relogioExplode += 1
-                bomb_exist = True
-            elif bomb_exist == True and relogioExplode < 500:
-                matriz[bombY][bombX] = bomb
-                relogioExplode += 1
-            elif relogioExplode >= 500 and relogioExplode <= 1000 and bomb_exist == True:
-                matriz[bombY+1][bombX] = explosioSym
-                matriz[bombY+2][bombX] = explosioSym
-                matriz[bombY-1][bombX] = explosioSym
-                matriz[bombY-2][bombX] = explosioSym
-                matriz[bombY][bombX+1] = explosioSym
-                matriz[bombY][bombX+2] = explosioSym
-                matriz[bombY][bombX-1] = explosioSym
-                matriz[bombY][bombX-2] = explosioSym
-                relogioExplode += 1
-                if relogioExplode == 1000 and bomb_exist == True:
-                    relogioExplode = 0
-                    bomb_active = False
-                    bomb_exist = False
+        if bomb_active_um == True and relogioExplode_um <= 1000:
+            if bomb_exist_um == False:
+                bombX_um = bichoX_um + 2
+                bombY_um = bichoY_um + 1 
+                matriz[bombY_um][bombX_um] = bomb
+                relogioExplode_um += 1
+                bomb_exist_um = True
+            elif bomb_exist_um == True and relogioExplode_um < 500:
+                matriz[bombY_um][bombX_um] = bomb
+                relogioExplode_um += 1
+            elif relogioExplode_um >= 500 and relogioExplode_um <= 1000 and bomb_exist_um == True:
+                matriz[bombY_um+1][bombX_um] = explosioSym
+                matriz[bombY_um+2][bombX_um] = explosioSym
+                matriz[bombY_um-1][bombX_um] = explosioSym
+                matriz[bombY_um-2][bombX_um] = explosioSym
+                matriz[bombY_um][bombX_um+1] = explosioSym
+                matriz[bombY_um][bombX_um+2] = explosioSym
+                matriz[bombY_um][bombX_um-1] = explosioSym
+                matriz[bombY_um][bombX_um-2] = explosioSym
+                relogioExplode_um += 1
+                if relogioExplode_um == 1000 and bomb_exist_um == True:
+                    relogioExplode_um = 0
+                    bomb_active_um = False
+                    bomb_exist_um = False
+                    
+        if bomb_active_dois == True and relogioExplode_dois <= 1000:
+            if bomb_exist_dois == False:
+                bombX_dois = bichoX_dois + 2
+                bombY_dois = bichoY_dois + 1 
+                matriz[bombY_dois][bombX_dois] = bomb
+                relogioExplode_dois += 1
+                bomb_exist_dois = True
+            elif bomb_exist_dois == True and relogioExplode_dois < 500:
+                matriz[bombY_dois][bombX_dois] = bomb
+                relogioExplode_dois += 1
+            elif relogioExplode_dois >= 500 and relogioExplode_dois <= 1000 and bomb_exist_dois == True:
+                matriz[bombY_dois+1][bombX_dois] = explosioSym
+                matriz[bombY_dois+2][bombX_dois] = explosioSym
+                matriz[bombY_dois-1][bombX_dois] = explosioSym
+                matriz[bombY_dois-2][bombX_dois] = explosioSym
+                matriz[bombY_dois][bombX_dois+1] = explosioSym
+                matriz[bombY_dois][bombX_dois+2] = explosioSym
+                matriz[bombY_dois][bombX_dois-1] = explosioSym
+                matriz[bombY_dois][bombX_dois-2] = explosioSym
+                relogioExplode_dois += 1
+                if relogioExplode_dois == 1000 and bomb_exist_dois == True:
+                    relogioExplode_dois = 0
+                    bomb_active_dois = False
+                    bomb_exist_dois = False
                             
 
 
@@ -146,7 +179,7 @@ if __name__ == '__main__':
             elif symbol == 's' and verificar_colisao(bichoY_um + 1, bichoX_um, matriz):
                 bichoY_um += 1
             elif symbol == 'f':
-                bomb_active = True
+                bomb_active_um = True
 
             if symbol == 'j' and verificar_colisao(bichoY_dois, bichoX_dois - 1, matriz):
                 bichoX_dois -= 1
@@ -157,6 +190,6 @@ if __name__ == '__main__':
             elif symbol == 'k' and verificar_colisao(bichoY_dois + 1, bichoX_dois, matriz):
                 bichoY_dois += 1
             elif symbol == 'h':
-                bomb_active = True
+                bomb_active_dois = True
 
 
