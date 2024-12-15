@@ -11,6 +11,7 @@ matriz = []
 
 bomb = "@"
 explosioSym = "#"
+obsUm = "░"
 
 #Player_um
 delay_um = 0
@@ -38,8 +39,6 @@ bomb_exist_dois = False
 relogioExplode_dois = 0
 bombX_dois = 0
 bombY_dois = 0
-
-obsUm = "░"
 
 
 
@@ -77,7 +76,8 @@ def verificar_colisao(novo_y, novo_x, matriz):
     '''
     # Garantir que a posição está dentro dos limites da matriz
     if 0 <= novo_y < maxY and 0 <= novo_x < maxX:
-        return matriz[novo_y][novo_x] == VAZIO  # Retorna True se está vazio
+        # Retorna True se está vazio ou se é uma explosão
+        return matriz[novo_y][novo_x] == VAZIO or matriz[novo_y][novo_x] == explosioSym
     return False  # Fora dos limites, não pode se mover
 
 
@@ -160,8 +160,12 @@ if __name__ == '__main__':
                     relogioExplode_dois = 0
                     bomb_active_dois = False
                     bomb_exist_dois = False
-                            
-
+        
+        #verificar se a bomba acertou o player                    
+        if matriz[bichoY_um][bichoX_um] == explosioSym:
+            bichoCabeca_um = VAZIO
+        elif matriz[bichoY_dois][bichoX_dois] == explosioSym:
+            bichoCabeca_dois = VAZIO    
 
         #impressão na tela
         desenhaTela(matriz)
@@ -169,27 +173,29 @@ if __name__ == '__main__':
         #controlando personages
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
+            
+            if bichoCabeca_um == "$":
+                if symbol == 'a' and verificar_colisao(bichoY_um, bichoX_um - 1, matriz):
+                    bichoX_um -= 1
+                elif symbol == 'd' and verificar_colisao(bichoY_um, bichoX_um + 1, matriz):
+                    bichoX_um += 1
+                elif symbol == 'w' and verificar_colisao(bichoY_um - 1, bichoX_um, matriz):
+                    bichoY_um -= 1
+                elif symbol == 's' and verificar_colisao(bichoY_um + 1, bichoX_um, matriz):
+                    bichoY_um += 1
+                elif symbol == 'f':
+                    bomb_active_um = True
 
-            if symbol == 'a' and verificar_colisao(bichoY_um, bichoX_um - 1, matriz):
-                bichoX_um -= 1
-            elif symbol == 'd' and verificar_colisao(bichoY_um, bichoX_um + 1, matriz):
-                bichoX_um += 1
-            elif symbol == 'w' and verificar_colisao(bichoY_um - 1, bichoX_um, matriz):
-                bichoY_um -= 1
-            elif symbol == 's' and verificar_colisao(bichoY_um + 1, bichoX_um, matriz):
-                bichoY_um += 1
-            elif symbol == 'f':
-                bomb_active_um = True
-
-            if symbol == 'j' and verificar_colisao(bichoY_dois, bichoX_dois - 1, matriz):
-                bichoX_dois -= 1
-            elif symbol == 'l' and verificar_colisao(bichoY_dois, bichoX_dois + 1, matriz):
-                bichoX_dois += 1
-            elif symbol == 'i' and verificar_colisao(bichoY_dois - 1, bichoX_dois, matriz):
-                bichoY_dois -= 1
-            elif symbol == 'k' and verificar_colisao(bichoY_dois + 1, bichoX_dois, matriz):
-                bichoY_dois += 1
-            elif symbol == 'h':
-                bomb_active_dois = True
+            if bichoCabeca_dois == "%":
+                if symbol == 'j' and verificar_colisao(bichoY_dois, bichoX_dois - 1, matriz):
+                    bichoX_dois -= 1
+                elif symbol == 'l' and verificar_colisao(bichoY_dois, bichoX_dois + 1, matriz):
+                    bichoX_dois += 1
+                elif symbol == 'i' and verificar_colisao(bichoY_dois - 1, bichoX_dois, matriz):
+                    bichoY_dois -= 1
+                elif symbol == 'k' and verificar_colisao(bichoY_dois + 1, bichoX_dois, matriz):
+                    bichoY_dois += 1
+                elif symbol == 'h':
+                    bomb_active_dois = True
 
 
