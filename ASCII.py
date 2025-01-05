@@ -44,7 +44,6 @@ bombY_dois = 0
 
 # Função para desenhar o mapa no terminal utilizando ANSI
 def desenhaTelaANSI(matriz):
-    os.system('cls')  # Limpa o terminal no Windows
     for y in range(len(matriz)):
         sys.stdout.write("\033[%d;0H" % (y + 1))  # Move o cursor para a linha correta
         sys.stdout.write(''.join(matriz[y]))
