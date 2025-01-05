@@ -162,7 +162,7 @@ if __name__ == '__main__':
         if bomb_active_dois == True and relogioExplode_dois <= 1000:
             if bomb_exist_dois == False:
                 bombX_dois = bichoX_dois + 2
-                bombY_dois = bichoY_dois + 1 
+                bombY_dois = bichoY_dois  
                 mapa_jogavel[bombY_dois][bombX_dois] = bomb
                 relogioExplode_dois += 1
                 bomb_exist_dois = True
