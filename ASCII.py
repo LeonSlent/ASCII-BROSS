@@ -1,8 +1,9 @@
-import os
 import sys
 import os
 import WConio2
 import cursor
+
+
 
 
 VAZIO = " "
@@ -13,7 +14,6 @@ matriz = []
 
 bomb = "@"
 explosioSym = "#"
-obsUm = "░"
 
 #Player_um
 delay_um = 0
@@ -42,61 +42,79 @@ relogioExplode_dois = 0
 bombX_dois = 0
 bombY_dois = 0
 
-# Função para desenhar o mapa no terminal utilizando ANSI
-def desenhaTelaANSI(matriz):
-    for y in range(len(matriz)):
-        sys.stdout.write("\033[%d;0H" % (y + 1))  # Move o cursor para a linha correta
-        sys.stdout.write(''.join(matriz[y]))
-    sys.stdout.flush()
 
 # Representação do mapa como uma mapa_jogavel
 MAPA = [
-    list("████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████"), 
-    list("█                                         ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                 █"), 
-    list("█               ▓▓▓▓▓▓▓▓▓▓▓▓▓      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓            █"), 
-    list("█               ▓▓▓▓▓▓▓▓▓▓▓▓▓      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    █"), 
-    list("█                 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓       ▓▓▓▓▓▓▓▓▓   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    █"),     
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),         
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),     
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ▓▓▓█"),         
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓         ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),     
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓                 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓         ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),         
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),     
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓          ▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓          ▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓           ▓█"),
-    list("█▓▓▓▓▓          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),         
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓          ▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),     
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ █"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓           ▓█"), 
-    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),     
-    list("█     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓█"),         
-    list("█              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"), 
-    list("█                 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ █"), 
-    list("████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████")
-]
+    list("████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓        ▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓        ▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓        ▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓        ▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓        ▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓        ▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓        ▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓        ▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓        ▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓        ▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓        ▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████████▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█"),
+    list("█▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("█▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ▓▓█"),
+    list("████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████")]
+
+def aplicarCores(MAPA):
+    mapa_colorido = []
+    for y in range(len(MAPA)):
+        linha_colorida = []
+        for char in MAPA[y]:
+            if char == "█":
+                linha_colorida.append("\033[90m█\033[0m")
+            elif char == "▓":  #cor verde escuro
+                linha_colorida.append("\033[32m▓\033[0m")
+            else:
+                linha_colorida.append(" ")
+        mapa_colorido.append(linha_colorida)  #Usar uma lista de caracteres, não uma string
+    return mapa_colorido
+
 
 mapa_jogavel = [linha[:] for linha in MAPA]
+mapa_com_cores = aplicarCores(mapa_jogavel)
 
-def limparTela(mapa_jogavel):
-    '''
-        função que limpa a tela do jogo apagando todos os valores
-        da mapa_jogavel de controle
-    '''
+
+def limparTela(mapa_com_cores):
+    #função que limpa a tela do jogo apagando todos os valores da mapa_jogavel de controle
+    maxY = len(mapa_com_cores)
+    maxX = len(mapa_com_cores[0])
+
     for y in range(maxY):
         for x in range(maxX):
-            mapa_jogavel[y][x] = VAZIO
+            mapa_com_cores[y][x] = VAZIO
 
 
-def verificar_colisao(novo_y, novo_x, mapa_jogavel):
+#Função para desenhar o mapa no terminal utilizando ANSI
+def desenhaTelaANSI(matriz):
+    for y in range(len(matriz)):
+        sys.stdout.write("\033[%d;0H" % (y + 1))  #Move o cursor para a linha correta
+        sys.stdout.write(''.join(matriz[y]))
+    sys.stdout.flush()
+
+
+def verificar_colisao(novo_y, novo_x, mapa_com_cores):
     '''
         Verifica se uma posição na mapa_jogavel está disponível para movimentação.
         Retorna True se a posição está livre e False se há colisão.
@@ -104,7 +122,7 @@ def verificar_colisao(novo_y, novo_x, mapa_jogavel):
     # Garantir que a posição está dentro dos limites da mapa_jogavel
     if 0 <= novo_y < maxY and 0 <= novo_x < maxX:
         # Retorna True se está vazio ou se é uma explosão
-        return mapa_jogavel[novo_y][novo_x] == VAZIO or mapa_jogavel[novo_y][novo_x] == explosioSym
+        return mapa_com_cores[novo_y][novo_x] == VAZIO or mapa_com_cores[novo_y][novo_x] == explosioSym
     return False  # Fora dos limites, não pode se mover
 
 #Parte principal do programa
@@ -117,123 +135,157 @@ if __name__ == '__main__':
         WConio2.gotoxy(0,0)
 
         #colocar personagens dentro da mapa_jogavel
-        mapa_jogavel[bichoY_um][bichoX_um] = bichoCabeca_um
+        mapa_com_cores[bichoY_um][bichoX_um] = bichoCabeca_um
 
         
-        mapa_jogavel[bichoY_dois][bichoX_dois] = bichoCabeca_dois
+        mapa_com_cores[bichoY_dois][bichoX_dois] = bichoCabeca_dois
 
 
-        mapa_jogavel[10][10] = obsUm
 
         if bomb_active_um == True and relogioExplode_um <= 1000:
             if bomb_exist_um == False:
                 bombX_um = bichoX_um + 2
                 bombY_um = bichoY_um  
-                mapa_jogavel[bombY_um][bombX_um] = bomb
+                mapa_com_cores[bombY_um][bombX_um] = bomb
                 relogioExplode_um += 1
                 bomb_exist_um = True
             elif bomb_exist_um == True and relogioExplode_um < 500:
-                mapa_jogavel[bombY_um][bombX_um] = bomb
+                mapa_com_cores[bombY_um][bombX_um] = bomb
                 relogioExplode_um += 1
             elif relogioExplode_um >= 500 and relogioExplode_um <= 1000 and bomb_exist_um == True:
-                mapa_jogavel[bombY_um+1][bombX_um] = explosioSym
-                mapa_jogavel[bombY_um+2][bombX_um] = explosioSym
-                mapa_jogavel[bombY_um-1][bombX_um] = explosioSym
-                mapa_jogavel[bombY_um-2][bombX_um] = explosioSym
-                mapa_jogavel[bombY_um][bombX_um+1] = explosioSym
-                mapa_jogavel[bombY_um][bombX_um+2] = explosioSym
-                mapa_jogavel[bombY_um][bombX_um-1] = explosioSym
-                mapa_jogavel[bombY_um][bombX_um-2] = explosioSym
+                if mapa_com_cores[bombY_um+1][bombX_um] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um+1][bombX_um] = explosioSym
+                if mapa_com_cores[bombY_um+2][bombX_um] != '\033[90m█\033[0m':    
+                    mapa_com_cores[bombY_um+2][bombX_um] = explosioSym
+                if mapa_com_cores[bombY_um-1][bombX_um] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um-1][bombX_um] = explosioSym
+                if mapa_com_cores[bombY_um-2][bombX_um] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um-2][bombX_um] = explosioSym
+                if mapa_com_cores[bombY_um][bombX_um+1] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um][bombX_um+1] = explosioSym
+                if mapa_com_cores[bombY_um][bombX_um+2] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um][bombX_um+2] = explosioSym
+                if mapa_com_cores[bombY_um][bombX_um-1] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um][bombX_um-1] = explosioSym
+                if mapa_com_cores[bombY_um][bombX_um-2] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_um][bombX_um-2] = explosioSym
                 relogioExplode_um += 1
                 if relogioExplode_um == 1000 and bomb_exist_um == True:
                     relogioExplode_um = 0
                     bomb_active_um = False
                     bomb_exist_um = False
-                    mapa_jogavel[bombY_um][bombX_um] = VAZIO
-                    mapa_jogavel[bombY_um+1][bombX_um] = VAZIO
-                    mapa_jogavel[bombY_um+2][bombX_um] = VAZIO
-                    mapa_jogavel[bombY_um-1][bombX_um] = VAZIO
-                    mapa_jogavel[bombY_um-2][bombX_um] = VAZIO
-                    mapa_jogavel[bombY_um][bombX_um+1] = VAZIO
-                    mapa_jogavel[bombY_um][bombX_um+2] = VAZIO
-                    mapa_jogavel[bombY_um][bombX_um-1] = VAZIO
-                    mapa_jogavel[bombY_um][bombX_um-2] = VAZIO
+                    mapa_com_cores[bombY_um][bombX_um] = VAZIO
+                    if mapa_com_cores[bombY_um+1][bombX_um] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_um+1][bombX_um] = VAZIO
+                    if mapa_com_cores[bombY_um+2][bombX_um] != '\033[90m█\033[0m':      
+                        mapa_com_cores[bombY_um+2][bombX_um] = VAZIO
+                    if mapa_com_cores[bombY_um-1][bombX_um] != '\033[90m█\033[0m':    
+                        mapa_com_cores[bombY_um-1][bombX_um] = VAZIO
+                    if mapa_com_cores[bombY_um-2][bombX_um] != '\033[90m█\033[0m':    
+                        mapa_com_cores[bombY_um-2][bombX_um] = VAZIO
+                    if mapa_com_cores[bombY_um][bombX_um+1] != '\033[90m█\033[0m':    
+                        mapa_com_cores[bombY_um][bombX_um+1] = VAZIO
+                    if mapa_com_cores[bombY_um][bombX_um+2] != '\033[90m█\033[0m':    
+                        mapa_com_cores[bombY_um][bombX_um+2] = VAZIO
+                    if mapa_com_cores[bombY_um][bombX_um-1] != '\033[90m█\033[0m':    
+                        mapa_com_cores[bombY_um][bombX_um-1] = VAZIO
+                    if mapa_com_cores[bombY_um][bombX_um-2] != '\033[90m█\033[0m':    
+                        mapa_com_cores[bombY_um][bombX_um-2] = VAZIO
                     
         if bomb_active_dois == True and relogioExplode_dois <= 1000:
             if bomb_exist_dois == False:
                 bombX_dois = bichoX_dois + 2
                 bombY_dois = bichoY_dois  
-                mapa_jogavel[bombY_dois][bombX_dois] = bomb
+                mapa_com_cores[bombY_dois][bombX_dois] = bomb
                 relogioExplode_dois += 1
                 bomb_exist_dois = True
             elif bomb_exist_dois == True and relogioExplode_dois < 500:
-                mapa_jogavel[bombY_dois][bombX_dois] = bomb
+                mapa_com_cores[bombY_dois][bombX_dois] = bomb
                 relogioExplode_dois += 1
             elif relogioExplode_dois >= 500 and relogioExplode_dois <= 1000 and bomb_exist_dois == True:
-                mapa_jogavel[bombY_dois+1][bombX_dois] = explosioSym
-                mapa_jogavel[bombY_dois+2][bombX_dois] = explosioSym
-                mapa_jogavel[bombY_dois-1][bombX_dois] = explosioSym
-                mapa_jogavel[bombY_dois-2][bombX_dois] = explosioSym
-                mapa_jogavel[bombY_dois][bombX_dois+1] = explosioSym
-                mapa_jogavel[bombY_dois][bombX_dois+2] = explosioSym
-                mapa_jogavel[bombY_dois][bombX_dois-1] = explosioSym
-                mapa_jogavel[bombY_dois][bombX_dois-2] = explosioSym
+                if mapa_com_cores[bombY_dois+1][bombX_dois] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_dois+1][bombX_dois] = explosioSym
+                if mapa_com_cores[bombY_dois+2][bombX_dois] != '\033[90m█\033[0m':    
+                    mapa_com_cores[bombY_dois+2][bombX_dois] = explosioSym
+                if mapa_com_cores[bombY_dois-1][bombX_dois] != '\033[90m█\033[0m':    
+                    mapa_com_cores[bombY_dois-1][bombX_dois] = explosioSym
+                if mapa_com_cores[bombY_dois-2][bombX_dois] != '\033[90m█\033[0m':
+                    mapa_com_cores[bombY_dois-2][bombX_dois] = explosioSym
+                if mapa_com_cores[bombY_dois][bombX_dois+1] != '\033[90m█\033[0m':    
+                    mapa_com_cores[bombY_dois][bombX_dois+1] = explosioSym
+                if mapa_com_cores[bombY_dois][bombX_dois+2] != '\033[90m█\033[0m':    
+                    mapa_com_cores[bombY_dois][bombX_dois+2] = explosioSym
+                if mapa_com_cores[bombY_dois][bombX_dois-1] != '\033[90m█\033[0m':   
+                    mapa_com_cores[bombY_dois][bombX_dois-1] = explosioSym
+                if mapa_com_cores[bombY_dois][bombX_dois-2] != '\033[90m█\033[0m':       
+                    mapa_com_cores[bombY_dois][bombX_dois-2] = explosioSym
                 relogioExplode_dois += 1
                 if relogioExplode_dois == 1000 and bomb_exist_dois == True:
                     relogioExplode_dois = 0
                     bomb_active_dois = False
                     bomb_exist_dois = False
-                    mapa_jogavel[bombY_dois][bombX_dois] = VAZIO
-                    mapa_jogavel[bombY_dois+1][bombX_dois] = VAZIO
-                    mapa_jogavel[bombY_dois+2][bombX_dois] = VAZIO
-                    mapa_jogavel[bombY_dois-1][bombX_dois] = VAZIO
-                    mapa_jogavel[bombY_dois-2][bombX_dois] = VAZIO
-                    mapa_jogavel[bombY_dois][bombX_dois+1] = VAZIO
-                    mapa_jogavel[bombY_dois][bombX_dois+2] = VAZIO
-                    mapa_jogavel[bombY_dois][bombX_dois-1] = VAZIO
-                    mapa_jogavel[bombY_dois][bombX_dois-2] = VAZIO
+                    mapa_com_cores[bombY_dois][bombX_dois] = VAZIO
+                    if mapa_com_cores[bombY_dois+1][bombX_dois] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois+1][bombX_dois] = VAZIO
+                    if mapa_com_cores[bombY_dois+2][bombX_dois] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois+2][bombX_dois] = VAZIO
+                    if mapa_com_cores[bombY_dois-1][bombX_dois] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois-1][bombX_dois] = VAZIO
+                    if mapa_com_cores[bombY_dois-2][bombX_dois] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois-2][bombX_dois] = VAZIO
+                    if mapa_com_cores[bombY_dois][bombX_dois+1] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois][bombX_dois+1] = VAZIO
+                    if mapa_com_cores[bombY_dois][bombX_dois+2] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois][bombX_dois+2] = VAZIO
+                    if mapa_com_cores[bombY_dois][bombX_dois-1] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois][bombX_dois-1] = VAZIO
+                    if mapa_com_cores[bombY_dois][bombX_dois-2] != '\033[90m█\033[0m':
+                        mapa_com_cores[bombY_dois][bombX_dois-2] = VAZIO
+        
         
         #verificar se a bomba acertou o player                    
-        if mapa_jogavel[bichoY_um][bichoX_um] == explosioSym:
+        if mapa_com_cores[bichoY_um][bichoX_um] == explosioSym:
             bichoCabeca_um = VAZIO
-        elif mapa_jogavel[bichoY_dois][bichoX_dois] == explosioSym:
+        elif mapa_com_cores[bichoY_dois][bichoX_dois] == explosioSym:
             bichoCabeca_dois = VAZIO
 
         #impressão na tela
-        desenhaTelaANSI(mapa_jogavel)
+        desenhaTelaANSI(mapa_com_cores)
 
         #controlando personages
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
             
             if bichoCabeca_um == "$":
-                if symbol == 'a' and verificar_colisao(bichoY_um, bichoX_um - 1, mapa_jogavel):
-                    mapa_jogavel[bichoY_um][bichoX_um] = VAZIO
+                if symbol == 'a' and verificar_colisao(bichoY_um, bichoX_um - 1, mapa_com_cores):
+                    mapa_com_cores[bichoY_um][bichoX_um] = VAZIO
                     bichoX_um -= 1
-                elif symbol == 'd' and verificar_colisao(bichoY_um, bichoX_um + 1, mapa_jogavel):
-                    mapa_jogavel[bichoY_um][bichoX_um] = VAZIO
+                elif symbol == 'd' and verificar_colisao(bichoY_um, bichoX_um + 1, mapa_com_cores):
+                    mapa_com_cores[bichoY_um][bichoX_um] = VAZIO
                     bichoX_um += 1
-                elif symbol == 'w' and verificar_colisao(bichoY_um - 1, bichoX_um, mapa_jogavel):
-                    mapa_jogavel[bichoY_um][bichoX_um] = VAZIO
+                elif symbol == 'w' and verificar_colisao(bichoY_um - 1, bichoX_um, mapa_com_cores):
+                    mapa_com_cores[bichoY_um][bichoX_um] = VAZIO
                     bichoY_um -= 1
-                elif symbol == 's' and verificar_colisao(bichoY_um + 1, bichoX_um, mapa_jogavel):
-                    mapa_jogavel[bichoY_um][bichoX_um] = VAZIO
+                elif symbol == 's' and verificar_colisao(bichoY_um + 1, bichoX_um, mapa_com_cores):
+                    mapa_com_cores[bichoY_um][bichoX_um] = VAZIO
                     bichoY_um += 1
                 elif symbol == 'f':
-                    bomb_active_um = True
+                    if mapa_com_cores[bichoY_um][bichoX_um + 2] == ' ':
+                        bomb_active_um = True
 
             if bichoCabeca_dois == "%":
-                if symbol == 'j' and verificar_colisao(bichoY_dois, bichoX_dois - 1, mapa_jogavel):
-                    mapa_jogavel[bichoY_dois][bichoX_dois] = VAZIO
+                if symbol == 'j' and verificar_colisao(bichoY_dois, bichoX_dois - 1, mapa_com_cores):
+                    mapa_com_cores[bichoY_dois][bichoX_dois] = VAZIO
                     bichoX_dois -= 1
-                elif symbol == 'l' and verificar_colisao(bichoY_dois, bichoX_dois + 1, mapa_jogavel):
-                    mapa_jogavel[bichoY_dois][bichoX_dois] = VAZIO
+                elif symbol == 'l' and verificar_colisao(bichoY_dois, bichoX_dois + 1, mapa_com_cores):
+                    mapa_com_cores[bichoY_dois][bichoX_dois] = VAZIO
                     bichoX_dois += 1
-                elif symbol == 'i' and verificar_colisao(bichoY_dois - 1, bichoX_dois, mapa_jogavel):
-                    mapa_jogavel[bichoY_dois][bichoX_dois] = VAZIO
+                elif symbol == 'i' and verificar_colisao(bichoY_dois - 1, bichoX_dois, mapa_com_cores):
+                    mapa_com_cores[bichoY_dois][bichoX_dois] = VAZIO
                     bichoY_dois -= 1
-                elif symbol == 'k' and verificar_colisao(bichoY_dois + 1, bichoX_dois, mapa_jogavel):
-                    mapa_jogavel[bichoY_dois][bichoX_dois] = VAZIO
+                elif symbol == 'k' and verificar_colisao(bichoY_dois + 1, bichoX_dois, mapa_com_cores):
+                    mapa_com_cores[bichoY_dois][bichoX_dois] = VAZIO
                     bichoY_dois += 1
                 elif symbol == 'h':
-                    bomb_active_dois = True        
+                    if mapa_com_cores[bichoY_dois][bichoX_dois + 2] == ' ':
+                        bomb_active_dois = True       
