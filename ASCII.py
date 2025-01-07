@@ -144,7 +144,7 @@ if __name__ == '__main__':
 
         if bomb_active_um == True and relogioExplode_um <= 1000:
             if bomb_exist_um == False:
-                bombX_um = bichoX_um + 2
+                bombX_um = bichoX_um + 1
                 bombY_um = bichoY_um  
                 mapa_com_cores[bombY_um][bombX_um] = bomb
                 relogioExplode_um += 1
@@ -194,7 +194,7 @@ if __name__ == '__main__':
                     
         if bomb_active_dois == True and relogioExplode_dois <= 1000:
             if bomb_exist_dois == False:
-                bombX_dois = bichoX_dois + 2
+                bombX_dois = bichoX_dois + 1
                 bombY_dois = bichoY_dois  
                 mapa_com_cores[bombY_dois][bombX_dois] = bomb
                 relogioExplode_dois += 1
@@ -270,7 +270,7 @@ if __name__ == '__main__':
                     mapa_com_cores[bichoY_um][bichoX_um] = VAZIO
                     bichoY_um += 1
                 elif symbol == 'f':
-                    if mapa_com_cores[bichoY_um][bichoX_um + 2] == ' ':
+                    if mapa_com_cores[bichoY_um][bichoX_um + 1] == ' ':
                         bomb_active_um = True
 
             if bichoCabeca_dois == "%":
@@ -287,5 +287,5 @@ if __name__ == '__main__':
                     mapa_com_cores[bichoY_dois][bichoX_dois] = VAZIO
                     bichoY_dois += 1
                 elif symbol == 'h':
-                    if mapa_com_cores[bichoY_dois][bichoX_dois + 2] == ' ':
+                    if mapa_com_cores[bichoY_dois][bichoX_dois + 1] == ' ':
                         bomb_active_dois = True       
