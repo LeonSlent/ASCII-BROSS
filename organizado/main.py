@@ -7,13 +7,18 @@ from matrizes import vazio, matriz_y, matriz_x, matriz
 import menu
 import player
 import bomba
+import mapa
 
-def gameplay(angulo_player, ativar_bomba):
+dimensao_jogo = len(player.player_baixo)
+
+def gameplay(angulo_player, ativar_bomba, existe_bomba):
     while True:
         # posicionando cursor da tela sempre no mesmo lugar
         WConio2.gotoxy(0, 0)
 
         matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+
+        mapa.desenhar_mapa(matriz)
 
         #estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
         if angulo_player == "baixo":
@@ -25,8 +30,24 @@ def gameplay(angulo_player, ativar_bomba):
         elif angulo_player == "direita":
             player.desenhar_player(matriz, player.player_direita)
 
+        #estrutura para colocar a bomba para o lado que o player esta direcionado
         if ativar_bomba == True:
-            bomba.desenhar_bomba(matriz)
+            if existe_bomba == False:
+                bomba.bomba_y = player.player_y
+                bomba.bomba_x = player.player_x
+                if angulo_player == "baixo":
+                    bomba.bomba_y += dimensao_jogo
+                elif angulo_player == "cima":
+                    bomba.bomba_y -= dimensao_jogo
+                elif angulo_player == "esquerda":
+                    bomba.bomba_x -= dimensao_jogo
+                elif angulo_player == "direita":
+                    bomba.bomba_x += dimensao_jogo
+
+
+                existe_bomba = True
+            bomba.desenhar_bomba(matriz, bomba.bomba_y, bomba.bomba_x)
+            
 
         matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
 
@@ -47,6 +68,8 @@ def gameplay(angulo_player, ativar_bomba):
                 angulo_player = "baixo"
             elif symbol in 'fF':
                 ativar_bomba = True
+            elif symbol in 'lL':
+                exit()
 
 
 
@@ -78,7 +101,7 @@ if __name__ == '__main__':
 
             if symbol in 'zZ':
                 menu.transicao_tela(menu.contador, menu.relogio)
-                gameplay(player.angulo_player, bomba.ativar_bomba)
+                gameplay(player.angulo_player, bomba.ativar_bomba, bomba.existe_bomba)
                 
 
             elif symbol in 'xX':

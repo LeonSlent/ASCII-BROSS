@@ -20,27 +20,27 @@ opcoes = [
 ]
 
 bomba = [
-         " " * 44 + "             . . .             " + 45 * " ",
-         " " * 44 + "              \|/              " + 45 * " ",
-         " " * 44 + "            `--+--'            " + 45 * " ",
-         " " * 44 + "              /|\              " + 45 * " ",
-         " " * 44 + "             ' | '             " + 45 * " ",
-         " " * 44 + "           ,--'#`--.           " + 45 * " ",
-         " " * 44 + "           |#######|           " + 45 * " ",
-         " " * 44 + "        _.-'#######`-._        " + 45 * " ",
-         " " * 44 + "     ,-'###############`-.     " + 45 * " ",
-         " " * 44 + "   ,'#####################`,   " + 45 * " ",
-         " " * 44 + "  /#########################\  " + 45 * " ",
-         " " * 44 + " |###########################| " + 45 * " ",
-         " " * 44 + "|#############################|" + 45 * " ",
-         " " * 44 + "|#############################|" + 45 * " ",
-         " " * 44 + "|#############################|" + 45 * " ",
-         " " * 44 + "|#############################|" + 45 * " ",
-         " " * 44 + " |###########################| " + 45 * " ",
-         " " * 44 + "  \#########################/  " + 45 * " ",
-         " " * 44 + "   `.#####################,'   " + 45 * " ",
-         " " * 44 + "     `._###############_,'     " + 45 * " ",
-         " " * 44 + "         `--..#####..--'       " + 45 * " "
+        "             . . .             " ,
+        "              \|/              " ,
+        "            `--+--'            " ,
+        "              /|\              " ,
+        "             ' | '             " ,
+        "           ,--'#`--.           " ,
+        "           |#######|           " ,
+        "        _.-'#######`-._        " ,
+        "     ,-'###############`-.     " ,
+        "   ,'#####################`,   " ,
+        "  /#########################\  " ,
+        " |###########################| " ,
+        "|#############################|" ,
+        "|#############################|" ,
+        "|#############################|" ,
+        "|#############################|" ,
+        " |###########################| " ,
+        "  \#########################/  " ,
+        "   `.#####################,'   " ,
+        "     `._###############_,'     " ,
+        "         `--..#####..--'       " 
 ]
 
 def desenhar_logo(matriz_x, matriz):
@@ -84,7 +84,7 @@ def transicao_tela(contador, relogio):
         matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
 
         # é aqui que você altera o que aparece no fundo da transição
-        if contador < 30: # quando o contador chegar a 30, a bomba ja passou pelas opções e logo, então não precisa mais mostra-las
+        if contador < 27: # quando o contador chegar a 30, a bomba ja passou pelas opções e logo, então não precisa mais mostra-las
             desenhar_logo(matrizes.matriz_x, matrizes.matriz)
             desenhar_opcoes(matrizes.matriz_x, matrizes.matriz)
 
@@ -95,7 +95,7 @@ def transicao_tela(contador, relogio):
         relogio = relogio + 1
 
         if relogio % 50 == 0: # logica para diminuir a velocidade que a bomba percorre a tela
-            contador = contador + 2 # quando o valor do contador é aumentado, a bomba se movimenta na matriz
+            contador = contador + 4 # quando o valor do contador é aumentado, a bomba se movimenta na matriz
         
         if contador > 50: # condição de parada do loop para retornar as variaveis de controle ao seu valor iniciar para que outro transição de tela aconteça
             contador = 1
