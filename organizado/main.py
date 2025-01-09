@@ -13,6 +13,7 @@ dimensao_jogo = len(player.player_baixo)
 
 def gameplay(angulo_player, ativar_bomba, existe_bomba):
     while True:
+        bomba.relogio_bomba += 2
         # posicionando cursor da tela sempre no mesmo lugar
         WConio2.gotoxy(0, 0)
 
@@ -44,8 +45,12 @@ def gameplay(angulo_player, ativar_bomba, existe_bomba):
                 elif angulo_player == "direita":
                     bomba.bomba_x += dimensao_jogo
 
-
                 existe_bomba = True
+
+            if bomba.relogio_bomba > 500:
+                existe_bomba = False
+                ativar_bomba = False
+                bomba.relogio_bomba = 0
             bomba.desenhar_bomba(matriz, bomba.bomba_y, bomba.bomba_x)
             
 
@@ -66,10 +71,19 @@ def gameplay(angulo_player, ativar_bomba, existe_bomba):
             elif symbol in 'sS' and player.verificar_colisao(player.player_y + 1, player.player_x):
                 player.player_y += 1
                 angulo_player = "baixo"
+
             elif symbol in 'fF':
-                ativar_bomba = True
+                if angulo_player == "esquerda" and bomba.verificar_colisao(player.player_y, player.player_x - 5):
+                    ativar_bomba = True
+                elif angulo_player == "direita" and bomba.verificar_colisao(player.player_y, player.player_x + 5):
+                    ativar_bomba = True
+                elif angulo_player == "cima" and bomba.verificar_colisao(player.player_y - 5, player.player_x):
+                    ativar_bomba = True
+                elif angulo_player == "baixo" and bomba.verificar_colisao(player.player_y + 5, player.player_x):
+                    ativar_bomba = True
+
             elif symbol in 'lL':
-                exit()
+                break
 
 
 
@@ -100,7 +114,7 @@ if __name__ == '__main__':
             value, symbol = WConio2.getch()
 
             if symbol in 'zZ':
-                menu.transicao_tela(menu.contador, menu.relogio)
+                #menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay(player.angulo_player, bomba.ativar_bomba, bomba.existe_bomba)
                 
 
