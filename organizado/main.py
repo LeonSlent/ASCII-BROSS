@@ -13,7 +13,6 @@ dimensao_jogo = len(player.player_baixo)
 
 def gameplay(angulo_player, ativar_bomba, existe_bomba):
     while True:
-        bomba.relogio_bomba += 0.5
         # posicionando cursor da tela sempre no mesmo lugar
         WConio2.gotoxy(0, 0)
 
@@ -32,27 +31,37 @@ def gameplay(angulo_player, ativar_bomba, existe_bomba):
             player.desenhar_player(matriz, player.player_direita)
 
         #estrutura para colocar a bomba para o lado que o player esta direcionado
-        if ativar_bomba == True:
+        if ativar_bomba == True and bomba.relogio_bomba <= 1000:
             if existe_bomba == False:
-                bomba.bomba_y = player.player_y
-                bomba.bomba_x = player.player_x
-
-                if angulo_player == "esquerda":
-                    bomba.bomba_x -= dimensao_jogo
-                elif angulo_player == "direita":
-                    bomba.bomba_x += dimensao_jogo
-                elif angulo_player == "cima":
-                    bomba.bomba_y -= dimensao_jogo
-                elif angulo_player == "baixo":
-                    bomba.bomba_y += dimensao_jogo
-
+                bomba_y = player.player_y
+                bomba_x = player.player_x + 1
+                bomba.relogio_bomba += 1
                 existe_bomba = True
 
-            if bomba.relogio_bomba > 500:
-                existe_bomba = False
-                ativar_bomba = False
+                if angulo_player == "baixo":
+                    bomba_y += dimensao_jogo
+                elif angulo_player == "cima":
+                    bomba_y -= dimensao_jogo
+                elif angulo_player == "esquerda":
+                    bomba_x -= dimensao_jogo
+                elif angulo_player == "direita":
+                    bomba_x += dimensao_jogo
+
+                bomba.desenhar_bomba(matriz, bomba_y, bomba_x)
+
+
+            elif existe_bomba == True and bomba.relogio_bomba < 500:
+                bomba.desenhar_bomba(matriz, bomba_y, bomba_x)
+                bomba.relogio_bomba += 1
+            
+            elif existe_bomba == True and bomba.relogio_bomba >= 500 and bomba.relogio_bomba < 1000:
+                bomba.desenhar_explosao(matriz, bomba_y, bomba_x)
+                bomba.relogio_bomba += 1
+            
+            elif existe_bomba == True and bomba.relogio_bomba == 1000:
                 bomba.relogio_bomba = 0
-            bomba.desenhar_bomba(matriz, bomba.bomba_y, bomba.bomba_x)
+                ativar_bomba = False
+                existe_bomba = False
             
 
         matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
