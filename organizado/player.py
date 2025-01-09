@@ -9,7 +9,7 @@ angulo_player = "baixo"
 
 player_baixo = [
         " ▄▄▄ ",
-        " ▄█▄ ",
+        " ▄▀▄ ",
         "▐███▌",
         " ▐▀▌ ",
         " ▀ ▀ "
@@ -47,12 +47,28 @@ def desenhar_player(matriz, player):
         for j, caractere in enumerate(linha):
             matriz[player_y + i][player_x + j] = caractere
 
-def verificar_colisao(novo_y, novo_x):
+def verificar_colisao(matriz, novo_y, novo_x, angulo):
     '''
     Verifica se uma posição na matriz está disponível para movimentação.
     Retorna True se a posição está livre e False se há colisão.
     '''
     if 0 <= novo_y <= matrizes.matriz_y - len(player_baixo) and 0 <= novo_x <= matrizes.matriz_x - len(player_baixo[0]):
-        return True
+        if angulo == "direita":
+            for i in range(len(player_baixo)):
+                if matriz[novo_y + i][novo_x + len(player_baixo) - 1] != matrizes.vazio:
+                    return False
+        elif angulo == "esquerda":
+            for i in range(len(player_baixo)):
+                if matriz[novo_y + i][novo_x] != matrizes.vazio:
+                    return False
+        elif angulo == "cima":
+            for i in range(len(player_baixo)):
+                if matriz[novo_y][novo_x + i] != matrizes.vazio:
+                    return False
+        elif angulo == "baixo":
+            for i in range(len(player_baixo)):
+                if matriz[novo_y + len(player_baixo) - 1][novo_x + i] != matrizes.vazio:
+                    return False
     else:
         return False
+    return True
