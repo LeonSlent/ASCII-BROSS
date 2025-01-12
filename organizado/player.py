@@ -4,6 +4,7 @@ player_y = 0
 player_x = 0
 
 angulo_player = "baixo"
+player_vivo = True
 
 
 

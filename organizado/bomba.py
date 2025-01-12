@@ -1,4 +1,5 @@
 import matrizes
+import player
 import mapa
 
 ativar_bomba = False
@@ -50,8 +51,11 @@ def verificar_colisao(matriz, novo_y, novo_x):
 def verificar_bloco(matriz, novo_y, novo_x):
     for i in range(len(explosao)):
         for j in range(len(explosao)):
-            if matriz[novo_y + i][novo_x + j] == "█":
+            if matriz[novo_y + i][novo_x + j] in ["█", "▄", "▐", "▌", "▀"]:
+                player.player_vivo = False
+            if matriz[novo_y + i][novo_x + j] == "▓":
                 return False
+
     return True
 
 

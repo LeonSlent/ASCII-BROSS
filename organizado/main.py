@@ -21,15 +21,16 @@ def gameplay(angulo_player, ativar_bomba, existe_bomba):
 
         mapa.desenhar_mapa(matriz)
 
-        #estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
-        if angulo_player == "baixo":
-            player.desenhar_player(matriz, player.player_baixo)
-        elif angulo_player == "cima":
-            player.desenhar_player(matriz, player.player_cima)
-        elif angulo_player == "esquerda":
-            player.desenhar_player(matriz, player.player_esquerda)
-        elif angulo_player == "direita":
-            player.desenhar_player(matriz, player.player_direita)
+        if player.player_vivo == True:
+            #estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
+            if angulo_player == "baixo":
+                player.desenhar_player(matriz, player.player_baixo)
+            elif angulo_player == "cima":
+                player.desenhar_player(matriz, player.player_cima)
+            elif angulo_player == "esquerda":
+                player.desenhar_player(matriz, player.player_esquerda)
+            elif angulo_player == "direita":
+                player.desenhar_player(matriz, player.player_direita)
 
         #estrutura para colocar a bomba para o lado que o player esta direcionado
         
