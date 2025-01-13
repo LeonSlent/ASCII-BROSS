@@ -53,10 +53,10 @@ def gameplay(angulo_player, ativar_bomba, existe_bomba):
             if existe_bomba == True and bomba.relogio_bomba < 500:
                 bomba.desenhar_bomba(matriz, bomba.bomba_y, bomba.bomba_x)
 
-            elif existe_bomba == True and bomba.relogio_bomba < 1000:
+            elif existe_bomba == True and bomba.relogio_bomba < 550:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y, bomba.bomba_x)
                 
-            elif existe_bomba == True and bomba.relogio_bomba == 1000:
+            elif existe_bomba == True and bomba.relogio_bomba == 550:
                     existe_bomba = False
                     ativar_bomba = False
                     bomba.relogio_bomba = 0
