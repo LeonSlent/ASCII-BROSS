@@ -100,7 +100,6 @@ def gameplay(angulo_player, ativar_bomba, existe_bomba):
 
 
 
-
 if __name__ == '__main__':
     os.system('cls')
     cursor.hide()
