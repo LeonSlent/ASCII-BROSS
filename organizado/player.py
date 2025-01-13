@@ -75,3 +75,25 @@ def verificar_colisao(matriz, novo_y, novo_x, angulo):
     else:
         return False
     return True
+
+def calcular_pontuacoes(player_vivo):
+    arquivo = open("pontuacoes.txt", "a+")
+    if  player_vivo:
+        arquivo.write("+30\n")
+    else:
+        arquivo.write("-30\n")
+
+    arquivo.seek(0)
+
+    with open("pontuacoes.txt") as arquivo_pontuacao:
+        soma = 0
+        for pontos in arquivo_pontuacao:
+         pontos = pontos.strip()
+         if pontos:
+                valor = eval(pontos)
+                soma += int(valor)
+        with open("pontuacoes.txt", "w") as arquivo_saida:
+            arquivo_saida.write(str(soma))
+
+        print(f"Soma total das pontuações: {soma}")
+calcular_pontuacoes(player_vivo)
