@@ -59,7 +59,7 @@ def verificar_colisao(matriz, novo_y, novo_x):
         return False
     return True
 
-def bloco_indestrutivel(matriz, novo_y, novo_x):
+def bloco_indestrutivel(matriz, novo_y, novo_x, player_vivo):
     #verifica o novo indice
     for i in range(len(explosao)):
         for j in range(len(explosao)):
@@ -69,8 +69,10 @@ def bloco_indestrutivel(matriz, novo_y, novo_x):
                 
             #verifica se a explosão pegou no player
             if matriz[novo_y + i][novo_x + j] in ["█", "▄", "▐", "▌", "▀"]:
-                player.player_vivo_um = False
-                player.player_vivo_dois = False
+                if player_vivo == 1:
+                    player.player_vivo_um = False
+                if player_vivo == 2:
+                    player.player_vivo_dois = False
             #verifica se é um bloco indestrutivel
             if matriz[novo_y + i][novo_x + j] == "▓":
                 return False
@@ -88,9 +90,7 @@ def bloco_destrutivel(matriz, novo_y, novo_x):
 
 
 
-
-
-def desenhar_explosao(matriz, bomba_y, bomba_x):
+def desenhar_explosao(matriz, bomba_y, bomba_x, player_vivo):
     raio_explosao = 5
     #logica para colocar o indice na explosao em uma posicao divisivel por 5
     if bomba_x % 5 < 3:
@@ -115,7 +115,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             raio_explosao = 5
             break
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
-        if bloco_indestrutivel(matriz, explosao_y - raio_explosao, explosao_x):
+        if bloco_indestrutivel(matriz, explosao_y - raio_explosao, explosao_x, player_vivo):
             if bloco_destrutivel(matriz, explosao_y - raio_explosao, explosao_x) and raio_explosao > 10:
                 raio_explosao = 5
                 break
@@ -142,7 +142,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             break
 
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
-        if bloco_indestrutivel(matriz, explosao_y + raio_explosao, explosao_x):
+        if bloco_indestrutivel(matriz, explosao_y + raio_explosao, explosao_x, player_vivo):
             if bloco_destrutivel(matriz, explosao_y + raio_explosao, explosao_x) and raio_explosao > 10:
                 raio_explosao = 5
                 break
@@ -168,7 +168,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             break
 
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
-        if bloco_indestrutivel(matriz, explosao_y, explosao_x - raio_explosao):
+        if bloco_indestrutivel(matriz, explosao_y, explosao_x - raio_explosao, player_vivo):
             if bloco_destrutivel(matriz, explosao_y, explosao_x - raio_explosao) and raio_explosao > 10:
                 raio_explosao = 5
                 break
@@ -194,7 +194,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             break
 
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
-        if bloco_indestrutivel(matriz, explosao_y, explosao_x + raio_explosao):
+        if bloco_indestrutivel(matriz, explosao_y, explosao_x + raio_explosao, player_vivo):
             if bloco_destrutivel(matriz, explosao_y, explosao_x + raio_explosao) and raio_explosao > 10:
                 raio_explosao = 5
                 break

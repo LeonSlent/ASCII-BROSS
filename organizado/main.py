@@ -54,7 +54,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                 bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
 
             elif existe_bomba_um == True and bomba.relogio_bomba_um < 1000:
-                bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+                bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um, 1)
                 
             elif existe_bomba_um == True and bomba.relogio_bomba_um == 1000:
                     existe_bomba_um = False
@@ -95,7 +95,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                 bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
 
             elif existe_bomba_dois == True and bomba.relogio_bomba_dois < 1000:
-                bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois, 2)
 
             elif existe_bomba_dois == True and bomba.relogio_bomba_dois == 1000:
                 existe_bomba_dois = False
