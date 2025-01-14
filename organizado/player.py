@@ -1,10 +1,18 @@
 import matrizes
 
-player_y = 0
-player_x = 0
+#Player 1
+player_y_um = 0
+player_x_um = 0
 
-angulo_player = "baixo"
-player_vivo = True
+angulo_player_um = "baixo"
+player_vivo_um = True
+
+#Player 1
+player_y_dois = 30
+player_x_dois = 85
+
+angulo_player_dois = "baixo"
+player_vivo_dois = True
 
 
 
@@ -40,7 +48,7 @@ player_esquerda = [
         " ▀ ▀ "
 ]
 
-def desenhar_player(matriz, player):
+def desenhar_player(matriz, player, player_y, player_x):
     '''
         função que desenha o player na tela
     '''
@@ -96,4 +104,5 @@ def calcular_pontuacoes(player_vivo):
             arquivo_saida.write(str(soma))
 
         print(f"Soma total das pontuações: {soma}")
-calcular_pontuacoes(player_vivo)
+calcular_pontuacoes(player_vivo_um)
+calcular_pontuacoes(player_vivo_dois)
