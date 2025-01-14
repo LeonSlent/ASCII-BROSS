@@ -116,7 +116,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             break
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
         if bloco_indestrutivel(matriz, explosao_y - raio_explosao, explosao_x):
-            if bloco_destrutivel(matriz, explosao_y - raio_explosao, explosao_x) and raio_explosao == 15:
+            if bloco_destrutivel(matriz, explosao_y - raio_explosao, explosao_x) and raio_explosao > 10:
                 raio_explosao = 5
                 break
             #desenha a explosão
@@ -143,7 +143,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
 
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
         if bloco_indestrutivel(matriz, explosao_y + raio_explosao, explosao_x):
-            if bloco_destrutivel(matriz, explosao_y + raio_explosao, explosao_x) and raio_explosao == 15:
+            if bloco_destrutivel(matriz, explosao_y + raio_explosao, explosao_x) and raio_explosao > 10:
                 raio_explosao = 5
                 break
             #desenha a explosão
@@ -169,7 +169,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
 
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
         if bloco_indestrutivel(matriz, explosao_y, explosao_x - raio_explosao):
-            if bloco_destrutivel(matriz, explosao_y, explosao_x - raio_explosao) and raio_explosao == 15:
+            if bloco_destrutivel(matriz, explosao_y, explosao_x - raio_explosao) and raio_explosao > 10:
                 raio_explosao = 5
                 break
             #desenha a explosão
@@ -195,7 +195,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
 
         #verifica se o proximo indice que a explosão irá ocupar é um bloco indestrutivel
         if bloco_indestrutivel(matriz, explosao_y, explosao_x + raio_explosao):
-            if bloco_destrutivel(matriz, explosao_y, explosao_x + raio_explosao) and raio_explosao == 15:
+            if bloco_destrutivel(matriz, explosao_y, explosao_x + raio_explosao) and raio_explosao > 10:
                 raio_explosao = 5
                 break
             #desenha a explosão
