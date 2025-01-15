@@ -1,20 +1,21 @@
 import matrizes
 
+
 #Player 1
 player_y_um = 0
 player_x_um = 0
 
 angulo_player_um = "baixo"
 player_vivo_um = True
+pontuacao_player_um = 0
 
-#Player 1
+#Player 2
 player_y_dois = 30
 player_x_dois = 85
 
 angulo_player_dois = "baixo"
 player_vivo_dois = True
-
-
+pontuacao_player_dois = 0
 
 player_baixo = [
         " ▄▄▄ ",
@@ -84,25 +85,33 @@ def verificar_colisao(matriz, novo_y, novo_x, angulo):
         return False
     return True
 
-def calcular_pontuacoes(player_vivo):
-    arquivo = open("pontuacoes.txt", "a+")
-    if  player_vivo:
-        arquivo.write("+30\n")
-    else:
-        arquivo.write("-30\n")
 
-    arquivo.seek(0)
+def calcular_pontuacoes(player_vivo_um, player_vivo_dois):
+    global pontuacao_player_um, pontuacao_player_dois
+    with open("pontuacoes.txt", "a+") as arquivo_pontuacao:
+        linhas = arquivo_pontuacao.readlines()
+        if len(linhas) >= 1:
+            pontuacao_player_um = int(linhas[0].strip())
+        if len(linhas) >= 2:
+            pontuacao_player_dois = int(linhas[1].strip())
 
-    with open("pontuacoes.txt") as arquivo_pontuacao:
-        soma = 0
-        for pontos in arquivo_pontuacao:
-         pontos = pontos.strip()
-         if pontos:
-                valor = eval(pontos)
-                soma += int(valor)
-        with open("pontuacoes.txt", "w") as arquivo_saida:
-            arquivo_saida.write(str(soma))
+    if player_vivo_um and not player_vivo_dois:
+        pontuacao_player_um += 1
+    elif player_vivo_dois and not player_vivo_um:
+        pontuacao_player_dois += 1
 
-        print(f"Soma total das pontuações: {soma}")
-calcular_pontuacoes(player_vivo_um)
-calcular_pontuacoes(player_vivo_dois)
+        
+    with open("pontuacoes.txt", "w") as arquivo_saida:
+        arquivo_saida.write(f"{pontuacao_player_um}\n")
+        arquivo_saida.write(f"{pontuacao_player_dois}\n")
+
+
+def apresentar_pontuacoes():
+    calcular_pontuacoes(player_vivo_um, player_vivo_dois)
+        
+    print("Pontuações:")
+    print(f"Player 1: {pontuacao_player_um}")
+    print(f"Player 2: {pontuacao_player_dois}")
+
+
+
