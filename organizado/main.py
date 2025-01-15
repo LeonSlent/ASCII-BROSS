@@ -195,6 +195,6 @@ if __name__ == '__main__':
                 
 
             elif symbol in 'xX':
-                pass
+                player.apresentar_pontuacoes()
             elif symbol in 'Cc':
                 exit()
