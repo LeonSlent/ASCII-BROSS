@@ -175,7 +175,13 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                     ativar_bomba_dois = True
 
 
-
+def menu_pontuacao():
+    while True:
+        WConio2.gotoxy(0, 0)
+        matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+        menu.desenhar_pontuacao()
+        player.apresentar_pontuacoes()
+        matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
 
 if __name__ == '__main__':
     os.system('cls')
@@ -206,6 +212,6 @@ if __name__ == '__main__':
                 
 
             elif symbol in 'xX':
-                player.apresentar_pontuacoes()
+                menu_pontuacao()
             elif symbol in 'Cc':
                 exit()
