@@ -13,6 +13,16 @@ logo = [
     " ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝   ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═════╝ "
 ]
 
+PONTUACAO = [
+    "██████╗  ██████╗ ███╗   ██╗████████╗██╗   ██╗ █████╗  ██████╗ █████╗  ██████╗" ,
+    "██╔══██╗██╔═══██╗████╗  ██║╚══██╔══╝██║   ██║██╔══██╗██╔════╝██╔══██╗██╔═══██╗",
+    "██████╔╝██║   ██║██╔██╗ ██║   ██║   ██║   ██║███████║██║     ███████║██║   ██║",
+    "██╔═══╝ ██║   ██║██║╚██╗██║   ██║   ██║   ██║██╔══██║██║     ██╔══██║██║   ██║",
+    "██║     ╚██████╔╝██║ ╚████║   ██║   ╚██████╔╝██║  ██║╚██████╗██║  ██║╚██████╔╝",
+    "╚═╝      ╚═════╝ ╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝"
+]
+
+
 opcoes = [
     "[Z] JOGAR    ",
     "[X] PONTUAÇÃO",
@@ -50,6 +60,17 @@ def desenhar_logo(matriz_x, matriz):
     centro = int((matriz_x - len(logo[0])) / 2) #encontra o índice da lista que deixará a logo no centro
 
     for i, linha in enumerate(logo):
+        for j, caractere in enumerate(linha):
+            matriz[5 + i][centro + j] = caractere
+
+
+def desenhar_pontuacao(matriz_x, matriz):
+    '''
+        função que imprime a matriz da pontuação na tela
+    '''
+    centro = int((matriz_x - len(PONTUACAO[0])) / 2)
+
+    for i, linha in enumerate(PONTUACAO):
         for j, caractere in enumerate(linha):
             matriz[5 + i][centro + j] = caractere
 
