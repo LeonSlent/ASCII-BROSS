@@ -123,7 +123,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             for i, linha in enumerate(explosao):
                 for j, caractere in enumerate(linha):
                     matriz[explosao_y + i - raio_explosao][explosao_x + j] = caractere
-                    mapa.cenario[explosao_y + i - raio_explosao][explosao_x + j] = " "
+                    mapa.copia_cenario[explosao_y + i - raio_explosao][explosao_x + j] = " "
             raio_explosao += 5
 
         else:
@@ -150,7 +150,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             for i, linha in enumerate(explosao):
                 for j, caractere in enumerate(linha):
                     matriz[explosao_y + i + raio_explosao][explosao_x + j] = caractere
-                    mapa.cenario[explosao_y + i + raio_explosao][explosao_x + j] = " "
+                    mapa.copia_cenario[explosao_y + i + raio_explosao][explosao_x + j] = " "
             raio_explosao += 5
 
         else:
@@ -176,7 +176,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             for i, linha in enumerate(explosao):
                 for j, caractere in enumerate(linha):
                     matriz[explosao_y + i][explosao_x + j - raio_explosao] = caractere
-                    mapa.cenario[explosao_y + i][explosao_x + j - raio_explosao] = " "
+                    mapa.copia_cenario[explosao_y + i][explosao_x + j - raio_explosao] = " "
             raio_explosao += 5
 
         else:
@@ -202,7 +202,7 @@ def desenhar_explosao(matriz, bomba_y, bomba_x):
             for i, linha in enumerate(explosao):
                 for j, caractere in enumerate(linha):
                     matriz[explosao_y + i][explosao_x + j + raio_explosao] = caractere
-                    mapa.cenario[explosao_y + i][explosao_x + j + raio_explosao] = " "
+                    mapa.copia_cenario[explosao_y + i][explosao_x + j + raio_explosao] = " "
             raio_explosao += 5
 
         else:

@@ -19,7 +19,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
         matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
 
-        mapa.desenhar_mapa(matriz)
+        mapa.desenhar_mapa(matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0:
             player.player_vivo_um = True
@@ -207,6 +207,9 @@ if __name__ == '__main__':
             value, symbol = WConio2.getch()
 
             if symbol in 'zZ':
+
+                mapa.copia_cenario = [linha[:] for linha in mapa.cenario]
+
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
                 
