@@ -95,7 +95,7 @@ def transicao_tela(contador, relogio):
         relogio = relogio + 1
 
         if relogio % 50 == 0: # logica para diminuir a velocidade que a bomba percorre a tela
-            contador = contador + 4 # quando o valor do contador é aumentado, a bomba se movimenta na matriz
+            contador = contador + 2 # quando o valor do contador é aumentado, a bomba se movimenta na matriz
         
         if contador > 50: # condição de parada do loop para retornar as variaveis de controle ao seu valor iniciar para que outro transição de tela aconteça
             contador = 1

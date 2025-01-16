@@ -21,6 +21,17 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
         mapa.desenhar_mapa(matriz)
 
+        if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0:
+            player.player_vivo_um = True
+            player.player_vivo_dois = True
+            player.player_y_um = 0
+            player.player_x_um = 0
+            player.player_y_dois = 30
+            player.player_x_dois = 90
+            break
+
+
+
         if player.player_vivo_um == True:
             #estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
             if angulo_player_um == "baixo":
@@ -138,6 +149,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                     ativar_bomba_um = True
 
 
+            #movimenta e muda de angulo o player
             if symbol in '4' and player.verificar_colisao(matriz, player.player_y_dois, player.player_x_dois - 1, "esquerda"):
                 player.player_x_dois -= 1
                 angulo_player_dois = "esquerda"
@@ -189,7 +201,7 @@ if __name__ == '__main__':
             value, symbol = WConio2.getch()
 
             if symbol in 'zZ':
-                #menu.transicao_tela(menu.contador, menu.relogio)
+                menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
                 
 
