@@ -67,14 +67,14 @@ def bloco_indestrutivel(matriz, novo_y, novo_x):
 
                 
             #verifica se a explosão pegou no player
-            if matriz[novo_y + i][novo_x + j] in ["\033[34m█\033[0m", "\033[34m▄\033[0m", "\033[34m▐\033[0m", "\033[34m▌\033[0m", "\033[34m▀\033[0m"]:
+            if matriz[novo_y + i][novo_x + j] in ["\033[36m█\033[0m", "\033[36m▄\033[0m", "\033[36m▐\033[0m", "\033[36m▌\033[0m", "\033[36m▀\033[0m"]:
                 player.player_vivo_um = False
-            if matriz[novo_y + i][novo_x + j] in ["\033[31m█\033[0m", "\033[31m▄\033[0m", "\033[31m▐\033[0m", "\033[31m▌\033[0m", "\033[31m▀\033[0m"]:
+            if matriz[novo_y + i][novo_x + j] in ["\033[91m█\033[0m", "\033[91m▄\033[0m", "\033[91m▐\033[0m", "\033[91m▌\033[0m", "\033[91m▀\033[0m"]:
                 player.player_vivo_dois = False
 
 
             #verifica se é um bloco indestrutivel
-            if matriz[novo_y + i][novo_x + j] == "▓":
+            if matriz[novo_y + i][novo_x + j] == "█":
                 return False
 
     return True

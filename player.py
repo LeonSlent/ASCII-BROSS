@@ -60,9 +60,9 @@ def colorir_player(player, cor):
     for i, linha in enumerate(player):
         for j, caractere in enumerate(linha):
             if cor == 1 and caractere != " ":
-                player_colorido[i][j] = f"\033[34m{caractere}\033[0m" 
+                player_colorido[i][j] = f"\033[36m{caractere}\033[0m" 
             if cor == 2 and caractere != " ":
-                player_colorido[i][j] = f"\033[31m{caractere}\033[0m" 
+                player_colorido[i][j] = f"\033[91m{caractere}\033[0m" 
     return player_colorido
 
 player_baixo_um = colorir_player(player_baixo, 1)

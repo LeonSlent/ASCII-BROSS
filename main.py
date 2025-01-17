@@ -21,7 +21,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
         mapa.desenhar_mapa(matriz, mapa.copia_cenario)
 
-        if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0:
+        if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0:
             player.player_vivo_um = True
             player.player_vivo_dois = True
             player.player_y_um = 0
