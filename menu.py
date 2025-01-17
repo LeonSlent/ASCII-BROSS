@@ -24,7 +24,8 @@ PONTUACAO = [
 
 
 opcoes = [
-    "[Z] JOGAR    ",
+    "[Z] JOGAR MODO NORMAL    ",
+    "[A] JOGAR MODO AVANÇADO",
     "[X] PONTUAÇÃO",
     "[C] SAIR     "
 ]
