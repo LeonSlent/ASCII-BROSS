@@ -390,23 +390,14 @@ if __name__ == '__main__':
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
-<<<<<<< HEAD
-
-            elif symbol in 'aA':
-
-=======
                 menu.menu_fim(0)
 
             elif symbol in 'aA':
->>>>>>> e9c993759541baa4e883b08ef6ade3599a36640a
                 mapa.copia_cenario = [linha[:] for linha in mapa.cenario]
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplayAdvanced(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
-<<<<<<< HEAD
-=======
                 menu.menu_fim(0)
->>>>>>> e9c993759541baa4e883b08ef6ade3599a36640a
 
             elif symbol in 'xX':
                 menu_pontuacao()
