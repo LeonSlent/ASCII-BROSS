@@ -1,8 +1,12 @@
 import WConio2
 import matrizes
 
+import player
+from matrizes import vazio, matriz_y, matriz_x, matriz
+
 contador = 1
 relogio = 0
+player_perdeu = 0
 
 logo = [
     " ██████╗  █████╗ ███╗   ███╗███████╗   ██████╗  ██████╗ ███╗   ███╗██████╗ ",
@@ -22,6 +26,15 @@ PONTUACAO = [
     "╚═╝      ╚═════╝ ╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝"
 ]
 
+game_over = [
+    " ██████╗  █████╗ ███╗   ███╗███████╗     ██████╗ ██╗   ██╗███████╗██████╗ ",
+    "██╔════╝ ██╔══██╗████╗ ████║██╔════╝    ██╔═══██╗██║   ██║██╔════╝██╔══██╗",
+    "██║  ███╗███████║██╔████╔██║█████╗      ██║   ██║██║   ██║█████╗  ██████╔╝",
+    "██║  ███╗███████║██╔████╔██║█████╗      ██║   ██║██║   ██║█████╗  ██████╔╝",
+    "██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗",
+    "╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗    ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║",
+    " ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝     ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝",
+]
 
 opcoes = [
     "[Z] JOGAR MODO NORMAL    ",
@@ -54,16 +67,50 @@ bomba = [
         "         `--..#####..--'       " 
 ]
 
-def desenhar_logo(matriz_x, matriz):
+explosao_fim = [
+                "               ________________                ",
+                "          ____/ (  (    )   )  \___            ",
+                "         /( (  (  )   _    ))  )   )\          ",
+                "       ((     (   )(    )  )   (   )  )        ",
+                "     ((/  ( _(   )   (   _) ) (  () )  )       ",
+                "    ( (  ( (_)   ((    (   )  .((_ ) .  )_     ",
+                "   ( (  )    (      (  )    )   ) . ) (   )    ",
+                "  (  (   (  (   ) (  _  ( _) ).  ) . ) ) ( )   ",
+                " ( (  (   ) (  )   (  ))     ) _)(   )  )  )   ",
+                " ( (  ( \ ) (    (_  ( ) ( )  )   ) )  )) ( )  ",
+                " (  (   (  (   (_ ( ) ( _    )  ) (  )  )   )  ",
+                " ( (  ( (  (  )     (_  )  ) )  _)   ) _( ( )  ",
+                "  ((  (   )(    (     _    )   _) _(_ (  (_ )  ",
+                "   (_((__(_(__(( ( ( |  ) ) ) )_))__))_)___)   ",
+                "   ((__)        \\||lll|l||///          \_))   ",
+                "            (   /(/ (  )  ) )\   )             ",
+                "          (    ( ( ( | | ) ) )\   )            ",
+                "           (   /(| / ( )) ) ) )) )             ",
+                "         (     ( ((((_(|)_)))))     )          ",
+                "          (      ||\(|(|)|/||     )            ",
+                "        (        |(||(||)||||        )         ",
+                "          (     //|/l|||)|\\ \     )           ",
+                "        (/ / //  /|//||||\\  \ \  \ _)         "
+]
+
+bomba_des = [
+    " *   ",
+    "  *  ",
+    " ▄█▄ ",
+    "▐███▌",
+    " ▀▀▀ "
+]
+
+#Adicionei o parametro "imagem" para que possa ser usado em outros textos
+def desenhar_logo(matriz_x, matriz, imagem):
     '''
         função que imprime a matriz da logo na tela
     '''
-    centro = int((matriz_x - len(logo[0])) / 2) #encontra o índice da lista que deixará a logo no centro
+    centro = int((matriz_x - len(imagem[0])) / 2) #encontra o índice da lista que deixará a logo no centro
 
-    for i, linha in enumerate(logo):
+    for i, linha in enumerate(imagem):
         for j, caractere in enumerate(linha):
             matriz[5 + i][centro + j] = caractere
-
 
 def desenhar_pontuacao(matriz_x, matriz):
     '''
@@ -107,7 +154,7 @@ def transicao_tela(contador, relogio):
 
         # é aqui que você altera o que aparece no fundo da transição
         if contador < 27: # quando o contador chegar a 30, a bomba ja passou pelas opções e logo, então não precisa mais mostra-las
-            desenhar_logo(matrizes.matriz_x, matrizes.matriz)
+            desenhar_logo(matrizes.matriz_x, matrizes.matriz, logo)
             desenhar_opcoes(matrizes.matriz_x, matrizes.matriz)
 
         desenhar_bomba(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz, contador)
@@ -123,3 +170,56 @@ def transicao_tela(contador, relogio):
             contador = 1
             relogio = 0
             break
+
+def fim_jogo_player(matriz_x, matriz):
+    '''
+        função que desenha o player que perdeu e a bomba
+    '''
+    centro = int((matriz_x - len(player.player_baixo[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
+
+    if player_perdeu == 1:
+        player.player_baixo_um = player.colorir_player(player.player_baixo, 1)
+        for i, linha in enumerate(player.player_baixo_um):
+            for j, caractere in enumerate(linha):
+                matriz[15 + i][centro + j] = caractere
+
+    if player_perdeu == 2:
+        player.player_baixo_dois = player.colorir_player(player.player_baixo, 2)
+        for i, linha in enumerate(player.player_baixo_dois):
+            for j, caractere in enumerate(linha):
+                matriz[15 + i][centro + j] = caractere
+
+    centro = int((matriz_x - len(bomba_des[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
+
+    for i, linha in enumerate(bomba_des):
+        for j, caractere in enumerate(linha):
+            matriz[20 + i][centro + j] = caractere
+
+def fim_jogo_explosao(matriz_x, matriz):
+    '''
+        função que desenha a explosao
+    '''
+    centro = int((matriz_x - len(explosao_fim[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
+    
+    for i, linha in enumerate(explosao_fim):
+        for j, caractere in enumerate(linha):
+            matriz[11 + i][centro + j] = caractere
+
+def menu_fim(time):
+    while True:
+        if time < 370:
+            WConio2.gotoxy(0, 0)
+            matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+            fim_jogo_player(matriz_x, matriz)
+            desenhar_logo(matriz_x, matriz, game_over)
+            matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+        elif 370 <= time < 750:
+            WConio2.gotoxy(0, 0)
+            matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+            fim_jogo_explosao(matriz_x, matriz)
+            desenhar_logo(matriz_x, matriz, game_over)
+            matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+        elif time >= 750:
+            time = 0
+            break
+        time += 1

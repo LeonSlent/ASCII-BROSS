@@ -1,6 +1,7 @@
 import matrizes
 import player
 import mapa
+import menu
 
 #Player_1
 ativar_bomba_um = False
@@ -69,8 +70,10 @@ def bloco_indestrutivel(matriz, novo_y, novo_x):
             #verifica se a explosão pegou no player
             if matriz[novo_y + i][novo_x + j] in ["\033[36m█\033[0m", "\033[36m▄\033[0m", "\033[36m▐\033[0m", "\033[36m▌\033[0m", "\033[36m▀\033[0m"]:
                 player.player_vivo_um = False
+                menu.player_perdeu = 1
             if matriz[novo_y + i][novo_x + j] in ["\033[91m█\033[0m", "\033[91m▄\033[0m", "\033[91m▐\033[0m", "\033[91m▌\033[0m", "\033[91m▀\033[0m"]:
                 player.player_vivo_dois = False
+                menu.player_perdeu = 2
 
 
             #verifica se é um bloco indestrutivel
