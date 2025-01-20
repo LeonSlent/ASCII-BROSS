@@ -30,17 +30,16 @@ game_over = [
     " ██████╗  █████╗ ███╗   ███╗███████╗     ██████╗ ██╗   ██╗███████╗██████╗ ",
     "██╔════╝ ██╔══██╗████╗ ████║██╔════╝    ██╔═══██╗██║   ██║██╔════╝██╔══██╗",
     "██║  ███╗███████║██╔████╔██║█████╗      ██║   ██║██║   ██║█████╗  ██████╔╝",
-    "██║  ███╗███████║██╔████╔██║█████╗      ██║   ██║██║   ██║█████╗  ██████╔╝",
     "██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗",
     "╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗    ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║",
     " ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝     ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝",
 ]
 
 opcoes = [
-    "[Z] JOGAR MODO NORMAL    ",
+    "[Z] JOGAR MODO NORMAL  ",
     "[A] JOGAR MODO AVANÇADO",
-    "[X] PONTUAÇÃO",
-    "[C] SAIR     "
+    "[X] PONTUAÇÃO          ",
+    "[C] SAIR               "
 ]
 
 bomba = [
@@ -207,19 +206,19 @@ def fim_jogo_explosao(matriz_x, matriz):
 
 def menu_fim(time):
     while True:
-        if time < 370:
+        if time < 1500:
             WConio2.gotoxy(0, 0)
             matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
             fim_jogo_player(matriz_x, matriz)
             desenhar_logo(matriz_x, matriz, game_over)
             matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
-        elif 370 <= time < 750:
+        elif 1000 <= time < 2500:
             WConio2.gotoxy(0, 0)
             matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
             fim_jogo_explosao(matriz_x, matriz)
             desenhar_logo(matriz_x, matriz, game_over)
             matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
-        elif time >= 750:
+        elif time >= 2500:
             time = 0
             break
         time += 1
