@@ -137,9 +137,15 @@ def desenhar_pontuacoes(matriz_x, matriz):
     calcular_pontuacoes()
 
     pontuacao_texto = [
-        f"Jogador Azul: {pontuacao_player_um}",
-        f"Jogador Vermelho: {pontuacao_player_dois}",
+        list(f"Jogador Azul: {pontuacao_player_um}"),
+        list(f"Jogador Vermelho: {pontuacao_player_dois}")
     ]
+    for i, linha in enumerate(pontuacao_texto):
+        for y, caracter in enumerate(linha):
+            if i == 0:
+                pontuacao_texto[i][y] = f"\033[36m{caracter}\033[0m"
+            if i == 1:
+                pontuacao_texto[i][y] = f"\033[91m{caracter}\033[0m"
 
     centro = int((matriz_x - len(pontuacao_texto[0])) / 2)
 
