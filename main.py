@@ -39,6 +39,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
         mapa.desenhar_mapa(matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0:
+            menu.menu_fim(0)
             player.player_vivo_um = True
             player.player_vivo_dois = True
             player.player_y_um = 0
@@ -205,6 +206,7 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
         mapa.desenhar_mapa(matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0:
+            menu.menu_fim(0)
             player.player_vivo_um = True
             player.player_vivo_dois = True
             player.player_y_um = 0
@@ -395,14 +397,12 @@ if __name__ == '__main__':
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
-                menu.menu_fim(0)
 
             elif symbol in 'aA':
                 mapa.copia_cenario = [linha[:] for linha in mapa.cenario]
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay_advanced(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
-                menu.menu_fim(0)
 
             elif symbol in 'pP':
                 menu_pontuacao()

@@ -176,17 +176,29 @@ def fim_jogo_player(matriz_x, matriz):
     '''
     centro = int((matriz_x - len(player.player_baixo[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
 
-    if player_perdeu == 1:
+    if player.player_vivo_um == False and player.player_vivo_dois == True:
         player.player_baixo_um = player.colorir_player(player.player_baixo, 1)
         for i, linha in enumerate(player.player_baixo_um):
             for j, caractere in enumerate(linha):
                 matriz[15 + i][centro + j] = caractere
 
-    if player_perdeu == 2:
+    elif player.player_vivo_dois == False and player.player_vivo_um == True:
         player.player_baixo_dois = player.colorir_player(player.player_baixo, 2)
         for i, linha in enumerate(player.player_baixo_dois):
             for j, caractere in enumerate(linha):
                 matriz[15 + i][centro + j] = caractere
+    
+    elif player.player_vivo_dois == False and player.player_vivo_um == False:
+        player.player_baixo_um = player.colorir_player(player.player_baixo, 1)
+        for i, linha in enumerate(player.player_baixo_um):
+            for j, caractere in enumerate(linha):
+                matriz[15 + i][5 + centro + j] = caractere
+
+        player.player_baixo_dois = player.colorir_player(player.player_baixo, 2)
+        for i, linha in enumerate(player.player_baixo_dois):
+            for j, caractere in enumerate(linha):
+                matriz[15 + i][centro + j - 5] = caractere
+        
 
     centro = int((matriz_x - len(bomba_des[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
 
