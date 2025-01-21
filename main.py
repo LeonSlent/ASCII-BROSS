@@ -337,9 +337,15 @@ def menu_pontuacao():
     while True:
         WConio2.gotoxy(0, 0)
         matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
-        menu.desenhar_pontuacao()
-        player.apresentar_pontuacoes()
+        menu.desenhar_PONTUACAO(matriz_x, matriz)
+        player.desenhar_pontuacoes(matriz_x, matriz)
         matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+
+
+        if WConio2.kbhit():
+            value, symbol = WConio2.getch()
+            if symbol in 'pP':
+                return
 
 if __name__ == '__main__':
     os.system('cls')
@@ -380,8 +386,9 @@ if __name__ == '__main__':
                 gameplay_advanced(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
                 menu.menu_fim(0)
 
-            elif symbol in 'xX':
+            elif symbol in 'pP':
                 menu_pontuacao()
+
 
             elif symbol in 'Cc':
                 exit()

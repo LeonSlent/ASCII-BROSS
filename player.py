@@ -1,5 +1,5 @@
 import matrizes
-
+import menu
 
 #Player 1
 player_y_um = 0
@@ -112,7 +112,7 @@ def verificar_colisao(matriz, novo_y, novo_x, angulo):
     return True
 
 
-def calcular_pontuacoes(player_vivo_um, player_vivo_dois):
+def calcular_pontuacoes():
     global pontuacao_player_um, pontuacao_player_dois
     with open("pontuacoes.txt", "a+") as arquivo_pontuacao:
         linhas = arquivo_pontuacao.readlines()
@@ -121,23 +121,31 @@ def calcular_pontuacoes(player_vivo_um, player_vivo_dois):
         if len(linhas) >= 2:
             pontuacao_player_dois = int(linhas[1].strip())
 
-    if player_vivo_um and not player_vivo_dois:
-        pontuacao_player_um += 1
-    elif player_vivo_dois and not player_vivo_um:
+    if menu.player_perdeu == 1:
         pontuacao_player_dois += 1
-
+        menu.player_perdeu = 0
+    elif menu.player_perdeu == 2:
+        pontuacao_player_um += 1
+        menu.player_perdeu = 0
         
     with open("pontuacoes.txt", "w") as arquivo_saida:
         arquivo_saida.write(f"{pontuacao_player_um}\n")
         arquivo_saida.write(f"{pontuacao_player_dois}\n")
 
 
-def apresentar_pontuacoes():
-    calcular_pontuacoes(player_vivo_um, player_vivo_dois)
-        
-    print("Pontuações:")
-    print(f"Player 1: {pontuacao_player_um}")
-    print(f"Player 2: {pontuacao_player_dois}")
+def desenhar_pontuacoes(matriz_x, matriz):
+    calcular_pontuacoes()
+
+    pontuacao_texto = [
+        f"Jogador Azul: {pontuacao_player_um}",
+        f"Jogador Vermelho: {pontuacao_player_dois}",
+    ]
+
+    centro = int((matriz_x - len(pontuacao_texto[0])) / 2)
+
+    for i, linha in enumerate(pontuacao_texto):
+        for j, caractere in enumerate(linha):
+            matriz[15 + i][centro + j] = caractere
 
 
 

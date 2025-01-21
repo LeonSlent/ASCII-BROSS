@@ -38,7 +38,7 @@ game_over = [
 opcoes = [
     "[Z] JOGAR MODO NORMAL  ",
     "[A] JOGAR MODO AVANÇADO",
-    "[X] PONTUAÇÃO          ",
+    "[P] PONTUAÇÃO          ",
     "[C] SAIR               "
 ]
 
@@ -111,7 +111,7 @@ def desenhar_logo(matriz_x, matriz, imagem):
         for j, caractere in enumerate(linha):
             matriz[5 + i][centro + j] = caractere
 
-def desenhar_pontuacao(matriz_x, matriz):
+def desenhar_PONTUACAO(matriz_x, matriz):
     '''
         função que imprime a matriz da pontuação na tela
     '''
