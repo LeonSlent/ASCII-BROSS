@@ -1,7 +1,6 @@
 import os
 import WConio2
 import cursor
-import winsound
 
 import matrizes
 from matrizes import vazio, matriz_y, matriz_x, matriz
@@ -9,9 +8,22 @@ import menu
 import player
 import bomba
 import mapa
+import pygame
+
+pygame.init()
+pygame.mixer.init()
+
+pygame.mixer.music.load("C:\GameBomb\Sons\Fundo.wav")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
+
+explosion_sound = pygame.mixer.Sound("C:\GameBomb\Sons\Bomba.wav")
+explosion_sound.set_volume(0.7)
 
 dimensao_jogo = len(player.player_baixo)
-winsound.PlaySound(r"C:\GameBomb\Sons\partida.wav", winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
+
+
+
 
 
 def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_dois, ativar_bomba_dois, existe_bomba_dois):
@@ -81,7 +93,8 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
             elif existe_bomba_um == True and bomba.relogio_bomba_um < 1800:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
-                
+                explosion_sound.play()
+
             elif existe_bomba_um == True and bomba.relogio_bomba_um == 1800:
                     existe_bomba_um = False
                     ativar_bomba_um = False
@@ -113,6 +126,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
             elif existe_bomba_dois == True and bomba.relogio_bomba_dois < 1800:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                explosion_sound.play()
 
             elif existe_bomba_dois == True and bomba.relogio_bomba_dois == 1800:
                 existe_bomba_dois = False
@@ -242,6 +256,7 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
 
             elif existe_bomba_um == True and bomba.relogio_bomba_um < 1200:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+                explosion_sound.play()
 
             elif existe_bomba_um == True and bomba.relogio_bomba_um == 1200:
                 existe_bomba_um = False
@@ -271,6 +286,7 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
 
             elif existe_bomba_dois == True and bomba.relogio_bomba_dois < 1200:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                explosion_sound.play()
 
             elif existe_bomba_dois == True and bomba.relogio_bomba_dois == 1200:
                 existe_bomba_dois = False

@@ -3,6 +3,9 @@ import player
 import mapa
 import menu
 
+
+
+
 #Player_1
 ativar_bomba_um = False
 existe_bomba_um = False
