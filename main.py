@@ -13,11 +13,13 @@ import pygame
 pygame.init()
 pygame.mixer.init()
 
-pygame.mixer.music.load("C:\GameBomb\Sons\Fundo.wav")
+pasta_atual = os.path.dirname(os.path.abspath(__file__))
+
+pygame.mixer.music.load(os.path.join(pasta_atual, "Sons", "Fundo.wav"))
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
 
-explosion_sound = pygame.mixer.Sound("C:\GameBomb\Sons\Bomba.wav")
+explosion_sound = pygame.mixer.Sound(os.path.join(pasta_atual, "Sons", "Bomba.wav"))
 explosion_sound.set_volume(0.7)
 
 dimensao_jogo = len(player.player_baixo)
