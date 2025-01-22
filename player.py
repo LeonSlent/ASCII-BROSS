@@ -114,13 +114,26 @@ def verificar_colisao(matriz, novo_y, novo_x, angulo):
 
 def calcular_pontuacoes():
     global pontuacao_player_um, pontuacao_player_dois
-    with open("pontuacoes.txt", "a+") as arquivo_pontuacao:
-        linhas = arquivo_pontuacao.readlines()
-        if len(linhas) >= 1:
-            pontuacao_player_um = int(linhas[0].strip())
-        if len(linhas) >= 2:
-            pontuacao_player_dois = int(linhas[1].strip())
+    try:
+        with open("pontuacoes.txt", "a+") as arquivo_pontuacao:
+            arquivo_pontuacao.seek(0)
+            linhas = arquivo_pontuacao.readlines()
+            if len(linhas) >= 1:
+                pontuacao_player_um = int(linhas[0].strip())
+            if len(linhas) >= 2:
+                pontuacao_player_dois = int(linhas[1].strip())
+    except FileNotFoundError:
+        pontuacao_player_um = 0
+        pontuacao_player_dois = 0
 
+    #Reinicia a pontuacao ao apertar 'R'
+    if WConio2.kbhit():
+        value, symbol = WConio2.getch()
+
+        if symbol in 'rR':
+            pontuacao_player_um = 0
+            pontuacao_player_dois = 0
+                
     if menu.player_perdeu == 1:
         pontuacao_player_dois += 1
         menu.player_perdeu = 0
