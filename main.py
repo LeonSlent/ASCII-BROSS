@@ -1,14 +1,17 @@
 import os
 import WConio2
 import cursor
-
 import matrizes
+from bomba import bomba_x_um, bomba_y_um
 from matrizes import vazio, matriz_y, matriz_x, matriz
 import menu
 import player
 import bomba
 import mapa
 import pygame
+import time
+
+from player import player_y_um
 
 pygame.init()
 pygame.mixer.init()
@@ -22,6 +25,10 @@ pygame.mixer.music.play(-1)
 explosion_sound = pygame.mixer.Sound(os.path.join(pasta_atual, "Sons", "Bomba.wav"))
 explosion_sound.set_volume(0.7)
 
+tecla_sound = pygame.mixer.Sound(os.path.join(pasta_atual, "Sons", "Tecla.mp3"))
+tecla_sound.set_volume(0.7)
+
+
 dimensao_jogo = len(player.player_baixo)
 
 
@@ -29,8 +36,12 @@ dimensao_jogo = len(player.player_baixo)
 
 
 def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_dois, ativar_bomba_dois, existe_bomba_dois):
+    tempo_ativação_bomba_um = None
+    tempo_ativação_bomba_dois = None
+    tempo_duracao_bomba = 3
+    tempo_explosão_bomba = 0.1
     while True:
-        
+
         # posicionando cursor da tela sempre no mesmo lugar
         WConio2.gotoxy(0, 0)
 
@@ -75,13 +86,20 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
         #estrutura para colocar a bomba para o lado que o player esta direcionado
         
-        if ativar_bomba_um == True:
-            bomba.relogio_bomba_um += 1
-            if existe_bomba_um == False:
+        if ativar_bomba_um:
+
+            if tempo_ativação_bomba_um is None:
+                tempo_ativação_bomba_um = time.time()
+
+                bomba.relogio_bomba_um += 1
+
+            if not existe_bomba_um:
+                # Configurar a posição inicial da bomba
                 bomba.bomba_y_um = player.player_y_um
                 bomba.bomba_x_um = player.player_x_um
                 existe_bomba_um = True
 
+                # Ajustar a posição com base no ângulo do jogador
                 if angulo_player_um == "esquerda":
                     bomba.bomba_x_um -= dimensao_jogo
                 elif angulo_player_um == "direita":
@@ -91,30 +109,38 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                 elif angulo_player_um == "baixo":
                     bomba.bomba_y_um += dimensao_jogo
 
-            if existe_bomba_um == True and bomba.relogio_bomba_um < 1700:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+            # Calcular o tempo decorrido
+            tempo_decorrido = time.time() - tempo_ativação_bomba_um
 
-            elif existe_bomba_um == True and bomba.relogio_bomba_um < 1800:
+            # Lógica para desenhar e explodir a bomba
+            if existe_bomba_um and tempo_decorrido < tempo_duracao_bomba:
+                bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+            elif existe_bomba_um and tempo_decorrido < tempo_duracao_bomba + tempo_explosão_bomba:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
                 explosion_sound.play()
+            elif existe_bomba_um and tempo_decorrido >= tempo_duracao_bomba + tempo_explosão_bomba:
+                # Resetar o estado após a explosão
+                existe_bomba_um = False
+                ativar_bomba_um = False
+                bomba.relogio_bomba_um = 0
+                tempo_ativação_bomba_um = None  # Indicar que a bomba não está ativa
 
-            elif existe_bomba_um == True and bomba.relogio_bomba_um == 1800:
-                    existe_bomba_um = False
-                    ativar_bomba_um = False
-                    bomba.relogio_bomba_um = 0
+        # estrutura para colocar a bomba para o lado que o player está direcionado
 
+        if ativar_bomba_dois:
 
+            if tempo_ativação_bomba_dois is None:
+                tempo_ativação_bomba_dois = time.time()
 
+                bomba.relogio_bomba_um += 1
 
-        #estrutura para colocar a bomba para o lado que o player está direcionado
-
-        if ativar_bomba_dois == True:
-            bomba.relogio_bomba_dois += 1
-            if existe_bomba_dois == False:
+            if not existe_bomba_dois:
+                # Configurar a posição inicial da bomba
                 bomba.bomba_y_dois = player.player_y_dois
                 bomba.bomba_x_dois = player.player_x_dois
                 existe_bomba_dois = True
 
+                # Ajustar a posição com base no ângulo do jogador
                 if angulo_player_dois == "esquerda":
                     bomba.bomba_x_dois -= dimensao_jogo
                 elif angulo_player_dois == "direita":
@@ -124,17 +150,21 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                 elif angulo_player_dois == "baixo":
                     bomba.bomba_y_dois += dimensao_jogo
 
-            if existe_bomba_dois == True and bomba.relogio_bomba_dois < 1700:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+            # Calcular o tempo decorrido
+            tempo_decorrido = time.time() - tempo_ativação_bomba_dois
 
-            elif existe_bomba_dois == True and bomba.relogio_bomba_dois < 1800:
+            # Lógica para desenhar e explodir a bomba
+            if existe_bomba_dois and tempo_decorrido < tempo_duracao_bomba:
+                bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+            elif (existe_bomba_dois and tempo_decorrido < tempo_duracao_bomba + tempo_explosão_bomba):
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
                 explosion_sound.play()
-
-            elif existe_bomba_dois == True and bomba.relogio_bomba_dois == 1800:
+            elif existe_bomba_dois and tempo_decorrido >= tempo_duracao_bomba + tempo_explosão_bomba:
+                # Resetar o estado após a explosão
                 existe_bomba_dois = False
                 ativar_bomba_dois = False
                 bomba.relogio_bomba_dois = 0
+                tempo_ativação_bomba_dois = None  # Indicar que a bomba não está ativa
             
             
 
@@ -196,6 +226,11 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
 
 def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_dois, ativar_bomba_dois, existe_bomba_dois):
+    tempo_ativação_bomba_um = None
+    tempo_ativação_bomba_dois = None
+    tempo_duracao_bomba = 2
+    tempo_explosão_bomba = 0.1
+
     while True:
 
         # posicionando cursor da tela sempre no mesmo lugar
@@ -237,15 +272,24 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
             elif angulo_player_dois == "direita":
                 player.desenhar_player(matriz, player.player_direita_dois, player.player_y_dois, player.player_x_dois)
 
-        # estrutura para colocar a bomba para o lado que o player esta direcionado
+        # estrutura para colocar a bomba para o lado que o player esta direcionad
 
-        if ativar_bomba_um == True:
+
+
+        if ativar_bomba_um:
+
+            if tempo_ativação_bomba_um is None:
+                tempo_ativação_bomba_um = time.time()
+
             bomba.relogio_bomba_um += 1
-            if existe_bomba_um == False:
+
+            if not existe_bomba_um:
+                # Configurar a posição inicial da bomba
                 bomba.bomba_y_um = player.player_y_um
                 bomba.bomba_x_um = player.player_x_um
                 existe_bomba_um = True
 
+                # Ajustar a posição com base no ângulo do jogador
                 if angulo_player_um == "esquerda":
                     bomba.bomba_x_um -= dimensao_jogo
                 elif angulo_player_um == "direita":
@@ -255,27 +299,38 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
                 elif angulo_player_um == "baixo":
                     bomba.bomba_y_um += dimensao_jogo
 
-            if existe_bomba_um == True and bomba.relogio_bomba_um < 1100:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+            # Calcular o tempo decorrido
+            tempo_decorrido = time.time() - tempo_ativação_bomba_um
 
-            elif existe_bomba_um == True and bomba.relogio_bomba_um < 1200:
+            # Lógica para desenhar e explodir a bomba
+            if existe_bomba_um and tempo_decorrido < tempo_duracao_bomba:
+                bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+            elif existe_bomba_um and tempo_decorrido < tempo_duracao_bomba + tempo_explosão_bomba:
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
                 explosion_sound.play()
-
-            elif existe_bomba_um == True and bomba.relogio_bomba_um == 1200:
+            elif existe_bomba_um and tempo_decorrido >= tempo_duracao_bomba + tempo_explosão_bomba:
+                # Resetar o estado após a explosão
                 existe_bomba_um = False
                 ativar_bomba_um = False
                 bomba.relogio_bomba_um = 0
+                tempo_ativação_bomba_um = None  # Indicar que a bomba não está ativa
 
         # estrutura para colocar a bomba para o lado que o player está direcionado
 
-        if ativar_bomba_dois == True:
-            bomba.relogio_bomba_dois += 1
-            if existe_bomba_dois == False:
+        if ativar_bomba_dois:
+
+            if tempo_ativação_bomba_dois is None:
+                tempo_ativação_bomba_dois = time.time()
+
+                bomba.relogio_bomba_um += 1
+
+            if not existe_bomba_dois:
+                # Configurar a posição inicial da bomba
                 bomba.bomba_y_dois = player.player_y_dois
                 bomba.bomba_x_dois = player.player_x_dois
                 existe_bomba_dois = True
 
+                # Ajustar a posição com base no ângulo do jogador
                 if angulo_player_dois == "esquerda":
                     bomba.bomba_x_dois -= dimensao_jogo
                 elif angulo_player_dois == "direita":
@@ -285,17 +340,21 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
                 elif angulo_player_dois == "baixo":
                     bomba.bomba_y_dois += dimensao_jogo
 
-            if existe_bomba_dois == True and bomba.relogio_bomba_dois < 1100:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+            # Calcular o tempo decorrido
+            tempo_decorrido = time.time() - tempo_ativação_bomba_dois
 
-            elif existe_bomba_dois == True and bomba.relogio_bomba_dois < 1200:
+            # Lógica para desenhar e explodir a bomba
+            if existe_bomba_dois and tempo_decorrido < tempo_duracao_bomba:
+                bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+            elif (existe_bomba_dois and tempo_decorrido < tempo_duracao_bomba + tempo_explosão_bomba):
                 bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
                 explosion_sound.play()
-
-            elif existe_bomba_dois == True and bomba.relogio_bomba_dois == 1200:
+            elif existe_bomba_dois and tempo_decorrido >= tempo_duracao_bomba + tempo_explosão_bomba:
+                # Resetar o estado após a explosão
                 existe_bomba_dois = False
                 ativar_bomba_dois = False
                 bomba.relogio_bomba_dois = 0
+                tempo_ativação_bomba_dois = None  # Indicar que a bomba não está ativa
 
         matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
 
@@ -392,21 +451,24 @@ if __name__ == '__main__':
             value, symbol = WConio2.getch()
 
             if symbol in 'zZ':
-
+                tecla_sound.play()
                 mapa.copia_cenario = [linha[:] for linha in mapa.cenario]
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
 
             elif symbol in 'aA':
+                tecla_sound.play()
                 mapa.copia_cenario = [linha[:] for linha in mapa.cenario]
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 gameplay_advanced(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
 
             elif symbol in 'pP':
+                tecla_sound.play()
                 menu_pontuacao()
 
 
             elif symbol in 'Cc':
+                tecla_sound.play()
                 exit()

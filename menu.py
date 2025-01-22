@@ -4,6 +4,7 @@ import matrizes
 import player
 from matrizes import vazio, matriz_y, matriz_x, matriz
 
+
 contador = 1
 relogio = 0
 player_perdeu = 0
