@@ -132,7 +132,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
             if tempo_ativação_bomba_dois is None:
                 tempo_ativação_bomba_dois = time.time()
 
-                bomba.relogio_bomba_um += 1
+                bomba.relogio_bomba_dois += 1
 
             if not existe_bomba_dois:
                 # Configurar a posição inicial da bomba
@@ -164,7 +164,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                 existe_bomba_dois = False
                 ativar_bomba_dois = False
                 bomba.relogio_bomba_dois = 0
-                tempo_ativação_bomba_dois = None  # Indicar que a bomba não está ativa
+                tempo_ativação_bomba_dois = None
             
             
 
@@ -302,7 +302,7 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
             # Calcular o tempo decorrido
             tempo_decorrido = time.time() - tempo_ativação_bomba_um
 
-            # Lógica para desenhar e explodir a bomba
+            # Desenhar e explodir a bomba
             if existe_bomba_um and tempo_decorrido < tempo_duracao_bomba:
                 bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
             elif existe_bomba_um and tempo_decorrido < tempo_duracao_bomba + tempo_explosão_bomba:
@@ -313,7 +313,7 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
                 existe_bomba_um = False
                 ativar_bomba_um = False
                 bomba.relogio_bomba_um = 0
-                tempo_ativação_bomba_um = None  # Indicar que a bomba não está ativa
+                tempo_ativação_bomba_um = None
 
         # estrutura para colocar a bomba para o lado que o player está direcionado
 
