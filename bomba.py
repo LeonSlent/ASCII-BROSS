@@ -2,9 +2,9 @@ import matrizes
 import player
 import mapa
 import menu
-#bomba
-tempo_ativação_bomba_um = None
-tempo_ativação_bomba_dois = None
+
+
+
 tempo_duracao_bomba = 3
 tempo_duracao_bomba_advanced = 2
 tempo_explosão_bomba = 0.1
@@ -14,20 +14,20 @@ tempo_explosão_bomba = 0.1
 #Player_1
 ativar_bomba_um = False
 existe_bomba_um = False
-relogio_bomba_um = 0
 bomba_y_um = 0
 bomba_x_um = 0
 explosao_y_um = 0
 explosao_x_um = 0
+tempo_ativação_bomba_um = None
 
 #Player_2
 ativar_bomba_dois = False
 existe_bomba_dois = False
-relogio_bomba_dois = 0
 bomba_y_dois = 0
 bomba_x_dois = 0
 explosao_y_dois = 0
 explosao_x_dois = 0
+tempo_ativação_bomba_dois = None
 
 
 bomba = [

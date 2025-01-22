@@ -3,6 +3,7 @@ import matrizes
 import player
 import pygame
 import os
+import bomba
 pygame.init()
 pygame.mixer.init()
 #sons
@@ -60,7 +61,7 @@ opcoes_pontuacao = [
     "[R] RESETAR PONTUAÇÃO"
 ]
 
-bomba = [
+bomba_transicao = [
         "             . . .             " ,
         "              \|/              " ,
         "            `--+--'            " ,
@@ -110,13 +111,6 @@ explosao_fim = [
                 "        (/ / //  /|//||||\\  \ \  \ _)         "
 ]
 
-bomba_des = [
-    " *   ",
-    "  *  ",
-    " ▄█▄ ",
-    "▐███▌",
-    " ▀▀▀ "
-]
 
 bomba_pontuacao = [
             "               ****  ",
@@ -217,8 +211,8 @@ def desenhar_bomba(matriz_y, matriz_x, matriz, contador):
         função que desenha uma bomba passando na tela como transição de cena
     '''
     posicao = matriz_y - contador #encontra o índice Y que a bomba deve aparecer e vai atualizando o valor para gerar movimento
-    centro = int((matriz_x - len(bomba[0])) / 2) #encontra o índice da lista que deixará a matriz da bomba no centro da tela
-    for i, linha in enumerate(bomba):
+    centro = int((matriz_x - len(bomba_transicao[0])) / 2) #encontra o índice da lista que deixará a matriz da _desenho no centro da tela
+    for i, linha in enumerate(bomba_transicao):
         for j, caractere in enumerate(linha):
             if posicao + i > -1: #quando a posicao chegar a maior que -1 ela deve parar de ser desenhada, pois já completou uma volta pela tela
                 matriz[posicao + i][centro + j] = caractere
@@ -281,9 +275,9 @@ def fim_jogo_player(matriz_x, matriz):
                 matriz[15 + i][centro + j - 5] = caractere
         
 
-    centro = int((matriz_x - len(bomba_des[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
+    centro = int((matriz_x - len(bomba.bomba[0])) / 2) #encontra o índice da lista que deixará a matriz das opções do menu no centro
 
-    for i, linha in enumerate(bomba_des):
+    for i, linha in enumerate(bomba.bomba):
         for j, caractere in enumerate(linha):
             matriz[20 + i][centro + j] = caractere
 
