@@ -2,7 +2,12 @@ import matrizes
 import player
 import mapa
 import menu
-
+#bomba
+tempo_ativação_bomba_um = None
+tempo_ativação_bomba_dois = None
+tempo_duracao_bomba = 3
+tempo_duracao_bomba_advanced = 2
+tempo_explosão_bomba = 0.1
 
 
 
