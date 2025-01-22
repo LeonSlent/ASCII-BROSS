@@ -1,5 +1,6 @@
 import matrizes
 import menu
+import WConio2
 
 #Player 1
 player_y_um = 0
