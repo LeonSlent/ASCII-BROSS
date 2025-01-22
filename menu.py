@@ -55,6 +55,10 @@ opcoes = [
     "[P] PONTUAÇÃO          ",
     "[C] SAIR               "
 ]
+opcoes_pontuacao = [
+    "[P] VOLTAR MENU",
+    "[R] RESETAR PONTUAÇÃO"
+]
 
 bomba = [
         "             . . .             " ,
@@ -120,6 +124,7 @@ def menu_pontuacao():
         matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
         desenhar_PONTUACAO(matrizes.matriz_x, matrizes.matriz)
         player.desenhar_pontuacoes(matrizes.matriz_x, matrizes.matriz)
+        desenhar_opcoes_pontuacao(matrizes.matriz)
         matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
 
 
@@ -128,6 +133,18 @@ def menu_pontuacao():
             if symbol in 'pP':
                 tecla_sound.play()
                 return
+
+def desenhar_opcoes_pontuacao(matriz):
+    '''
+        função que imprime a matriz das opções do menu na tela
+    '''
+    
+    for i, linha in enumerate(opcoes_pontuacao):
+        for j, caractere in enumerate(linha):
+            if i == 0:
+                matriz[33 + i][3 + j] = caractere
+            if i == 1:
+                matriz[32 + i][70 + j] = caractere
 
 #Adicionei o parametro "imagem" para que possa ser usado em outros textos
 def desenhar_logo(matriz_x, matriz, imagem):
