@@ -127,6 +127,7 @@ def menu_pontuacao():
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
             if symbol in 'pP':
+                tecla_sound.play()
                 return
 
 #Adicionei o parametro "imagem" para que possa ser usado em outros textos
