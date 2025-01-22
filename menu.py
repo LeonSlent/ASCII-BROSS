@@ -118,13 +118,40 @@ bomba_des = [
     " ▀▀▀ "
 ]
 
+bomba_pontuacao = [
+            "               ****  ",
+            "              *****  ",
+            "             █* **** ",
+            "            █▌       ",
+            "           █▌        ",
+            "        █▀▀▀▀█       ",
+            "        █    █       ",
+            "     ▐██████████▌    ",
+            "   ▐██         #██▌  ",
+            "  ▐█   ██        #█▌ ",
+            " ▐█   ██           █▌",
+            " █   ██            #█",
+            " █                ##█",
+            " ▐█  ██          ##█▌",
+            "  ▐█#         ####█▌ ",
+            "   ▐█#####  #####█▌  ",
+            "    ▐███######███▌   ",
+            "        ██████       "
+]
+
+
 def menu_pontuacao():
     while True:
         WConio2.gotoxy(0, 0)
         matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
+
         desenhar_PONTUACAO(matrizes.matriz_x, matrizes.matriz)
-        player.desenhar_pontuacoes(matrizes.matriz_x, matrizes.matriz)
+        player.desenhar_pontuacoes(matrizes.matriz)
+        desenhar_bomba_pontuacao(matrizes.matriz)
         desenhar_opcoes_pontuacao(matrizes.matriz)
+        player.desenhar_player(matrizes.matriz, player.player_baixo_um, 20, 15)
+        player.desenhar_player(matrizes.matriz, player.player_baixo_dois, 20, 74)
+
         matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
 
 
@@ -133,6 +160,14 @@ def menu_pontuacao():
             if symbol in 'pP':
                 tecla_sound.play()
                 return
+
+def desenhar_bomba_pontuacao(matriz):
+    centro = int((matrizes.matriz_x - len(bomba_pontuacao[0])) / 2) #encontra o índice da lista que deixará a logo no centro
+    for i, linha in enumerate(bomba_pontuacao):
+        for j, caractere in enumerate(linha):
+                matriz[12 + i][centro + j] = caractere
+
+
 
 def desenhar_opcoes_pontuacao(matriz):
     '''
@@ -144,7 +179,7 @@ def desenhar_opcoes_pontuacao(matriz):
             if i == 0:
                 matriz[33 + i][3 + j] = caractere
             if i == 1:
-                matriz[32 + i][70 + j] = caractere
+                matriz[32 + i][71 + j] = caractere
 
 #Adicionei o parametro "imagem" para que possa ser usado em outros textos
 def desenhar_logo(matriz_x, matriz, imagem):

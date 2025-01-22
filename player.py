@@ -147,12 +147,12 @@ def calcular_pontuacoes():
         arquivo_saida.write(f"{pontuacao_player_dois}\n")
 
 
-def desenhar_pontuacoes(matriz_x, matriz):
+def desenhar_pontuacoes(matriz):
     calcular_pontuacoes()
 
     pontuacao_texto = [
-        list(f"Jogador Azul: {pontuacao_player_um}"),
-        list(f"Jogador Vermelho: {pontuacao_player_dois}")
+        list(f"JOGADOR AZUL: {pontuacao_player_um}"),
+        list(f"JOGADOR VERMELHO: {pontuacao_player_dois}")
     ]
     for i, linha in enumerate(pontuacao_texto):
         for y, caracter in enumerate(linha):
@@ -161,11 +161,12 @@ def desenhar_pontuacoes(matriz_x, matriz):
             if i == 1:
                 pontuacao_texto[i][y] = f"\033[91m{caracter}\033[0m"
 
-    centro = int((matriz_x - len(pontuacao_texto[0])) / 2)
 
     for i, linha in enumerate(pontuacao_texto):
         for j, caractere in enumerate(linha):
-            matriz[15 + i][centro + j] = caractere
-
+            if i == 0:
+                matriz[25 + i][10 + j] = caractere
+            if i == 1:
+                matriz[24 + i][67 + j] = caractere
 
 
