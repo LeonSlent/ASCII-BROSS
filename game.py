@@ -1,6 +1,5 @@
 import WConio2
 import matrizes
-from matrizes import vazio, matriz_y, matriz_x, matriz
 import menu
 import player
 import bomba
@@ -19,9 +18,9 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
         # posicionando cursor da tela sempre no mesmo lugar
         WConio2.gotoxy(0, 0)
 
-        matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+        matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
 
-        mapa.desenhar_mapa(matriz, mapa.copia_cenario)
+        mapa.desenhar_mapa(matrizes.matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0:
             menu.menu_fim(0)
@@ -36,24 +35,24 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
         if player.player_vivo_um == True:
             # estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
             if angulo_player_um == "baixo":
-                player.desenhar_player(matriz, player.player_baixo_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_baixo_um, player.player_y_um, player.player_x_um)
             elif angulo_player_um == "cima":
-                player.desenhar_player(matriz, player.player_cima_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_cima_um, player.player_y_um, player.player_x_um)
             elif angulo_player_um == "esquerda":
-                player.desenhar_player(matriz, player.player_esquerda_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_esquerda_um, player.player_y_um, player.player_x_um)
             elif angulo_player_um == "direita":
-                player.desenhar_player(matriz, player.player_direita_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_direita_um, player.player_y_um, player.player_x_um)
 
         if player.player_vivo_dois == True:
             # estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
             if angulo_player_dois == "baixo":
-                player.desenhar_player(matriz, player.player_baixo_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_baixo_dois, player.player_y_dois, player.player_x_dois)
             elif angulo_player_dois == "cima":
-                player.desenhar_player(matriz, player.player_cima_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_cima_dois, player.player_y_dois, player.player_x_dois)
             elif angulo_player_dois == "esquerda":
-                player.desenhar_player(matriz, player.player_esquerda_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_esquerda_dois, player.player_y_dois, player.player_x_dois)
             elif angulo_player_dois == "direita":
-                player.desenhar_player(matriz, player.player_direita_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_direita_dois, player.player_y_dois, player.player_x_dois)
 
         # estrutura para colocar a bomba para o lado que o player esta direcionado
 
@@ -85,9 +84,9 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
             # Lógica para desenhar e explodir a bomba
             if existe_bomba_um and tempo_decorrido < bomba.tempo_duracao_bomba:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+                bomba.desenhar_bomba(matrizes.matriz, bomba.bomba_y_um, bomba.bomba_x_um)
             elif existe_bomba_um and tempo_decorrido < bomba.tempo_duracao_bomba + bomba.tempo_explosão_bomba:
-                bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+                bomba.desenhar_explosao(matrizes.matriz, bomba.bomba_y_um, bomba.bomba_x_um)
                 menu.explosion_sound.play()
             elif existe_bomba_um and tempo_decorrido >= bomba.tempo_duracao_bomba + bomba.tempo_explosão_bomba:
                 # Resetar o estado após a explosão
@@ -126,9 +125,9 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
 
             # Lógica para desenhar e explodir a bomba
             if existe_bomba_dois and tempo_decorrido < bomba.tempo_duracao_bomba:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                bomba.desenhar_bomba(matrizes.matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
             elif (existe_bomba_dois and tempo_decorrido < bomba.tempo_duracao_bomba + bomba.tempo_explosão_bomba):
-                bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                bomba.desenhar_explosao(matrizes.matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
                 menu.explosion_sound.play()
             elif existe_bomba_dois and tempo_decorrido >= bomba.tempo_duracao_bomba + bomba.tempo_explosão_bomba:
                 # Resetar o estado após a explosão
@@ -137,75 +136,75 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
                 bomba.relogio_bomba_dois = 0
                 bomba.tempo_ativação_bomba_dois = None
 
-        matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+        matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
 
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
 
             # movimenta e muda de angulo o player
-            if symbol in 'aA' and player.verificar_colisao(matriz, player.player_y_um, player.player_x_um - 1,
+            if symbol in 'aA' and player.verificar_colisao(matrizes.matriz, player.player_y_um, player.player_x_um - 1,
                                                            "esquerda"):
                 player.player_x_um -= 1
                 angulo_player_um = "esquerda"
-            elif symbol in 'dD' and player.verificar_colisao(matriz, player.player_y_um, player.player_x_um + 1,
+            elif symbol in 'dD' and player.verificar_colisao(matrizes.matriz, player.player_y_um, player.player_x_um + 1,
                                                              "direita"):
                 player.player_x_um += 1
                 angulo_player_um = "direita"
-            elif symbol in 'wW' and player.verificar_colisao(matriz, player.player_y_um - 1, player.player_x_um,
+            elif symbol in 'wW' and player.verificar_colisao(matrizes.matriz, player.player_y_um - 1, player.player_x_um,
                                                              "cima"):
                 player.player_y_um -= 1
                 angulo_player_um = "cima"
-            elif symbol in 'sS' and player.verificar_colisao(matriz, player.player_y_um + 1, player.player_x_um,
+            elif symbol in 'sS' and player.verificar_colisao(matrizes.matriz, player.player_y_um + 1, player.player_x_um,
                                                              "baixo"):
                 player.player_y_um += 1
                 angulo_player_um = "baixo"
 
             # player coloca a bomba no mapa
             elif symbol in 'fF':
-                if angulo_player_um == "esquerda" and bomba.verificar_colisao(matriz, player.player_y_um,
+                if angulo_player_um == "esquerda" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um,
                                                                               player.player_x_um - dimensao_jogo):
                     ativar_bomba_um = True
-                elif angulo_player_um == "direita" and bomba.verificar_colisao(matriz, player.player_y_um,
+                elif angulo_player_um == "direita" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um,
                                                                                player.player_x_um + dimensao_jogo):
                     ativar_bomba_um = True
-                elif angulo_player_um == "cima" and bomba.verificar_colisao(matriz, player.player_y_um - dimensao_jogo,
+                elif angulo_player_um == "cima" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um - dimensao_jogo,
                                                                             player.player_x_um):
                     ativar_bomba_um = True
-                elif angulo_player_um == "baixo" and bomba.verificar_colisao(matriz, player.player_y_um + dimensao_jogo,
+                elif angulo_player_um == "baixo" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um + dimensao_jogo,
                                                                              player.player_x_um):
                     ativar_bomba_um = True
 
             # movimenta e muda de angulo o player
-            if symbol in '4' and player.verificar_colisao(matriz, player.player_y_dois, player.player_x_dois - 1,
+            if symbol in '4' and player.verificar_colisao(matrizes.matriz, player.player_y_dois, player.player_x_dois - 1,
                                                           "esquerda"):
                 player.player_x_dois -= 1
                 angulo_player_dois = "esquerda"
-            elif symbol in '6' and player.verificar_colisao(matriz, player.player_y_dois, player.player_x_dois + 1,
+            elif symbol in '6' and player.verificar_colisao(matrizes.matriz, player.player_y_dois, player.player_x_dois + 1,
                                                             "direita"):
                 player.player_x_dois += 1
                 angulo_player_dois = "direita"
-            elif symbol in '8' and player.verificar_colisao(matriz, player.player_y_dois - 1, player.player_x_dois,
+            elif symbol in '8' and player.verificar_colisao(matrizes.matriz, player.player_y_dois - 1, player.player_x_dois,
                                                             "cima"):
                 player.player_y_dois -= 1
                 angulo_player_dois = "cima"
-            elif symbol in '5' and player.verificar_colisao(matriz, player.player_y_dois + 1, player.player_x_dois,
+            elif symbol in '5' and player.verificar_colisao(matrizes.matriz, player.player_y_dois + 1, player.player_x_dois,
                                                             "baixo"):
                 player.player_y_dois += 1
                 angulo_player_dois = "baixo"
 
             # Player coloca a bomba no mapa
             elif symbol in 'mM':
-                if angulo_player_dois == "esquerda" and bomba.verificar_colisao(matriz, player.player_y_dois,
+                if angulo_player_dois == "esquerda" and bomba.verificar_colisao(matrizes.matriz, player.player_y_dois,
                                                                                 player.player_x_dois - dimensao_jogo):
                     ativar_bomba_dois = True
-                elif angulo_player_dois == "direita" and bomba.verificar_colisao(matriz, player.player_y_dois,
+                elif angulo_player_dois == "direita" and bomba.verificar_colisao(matrizes.matriz, player.player_y_dois,
                                                                                  player.player_x_dois + dimensao_jogo):
                     ativar_bomba_dois = True
-                elif angulo_player_dois == "cima" and bomba.verificar_colisao(matriz,
+                elif angulo_player_dois == "cima" and bomba.verificar_colisao(matrizes.matriz,
                                                                               player.player_y_dois - dimensao_jogo,
                                                                               player.player_x_dois):
                     ativar_bomba_dois = True
-                elif angulo_player_dois == "baixo" and bomba.verificar_colisao(matriz,
+                elif angulo_player_dois == "baixo" and bomba.verificar_colisao(matrizes.matriz,
                                                                                player.player_y_dois + dimensao_jogo,
                                                                                player.player_x_dois):
                     ativar_bomba_dois = True
@@ -217,9 +216,9 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
         # posicionando cursor da tela sempre no mesmo lugar
         WConio2.gotoxy(0, 0)
 
-        matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+        matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
 
-        mapa.desenhar_mapa(matriz, mapa.copia_cenario)
+        mapa.desenhar_mapa(matrizes.matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0 or player.player_vivo_dois == False and bomba.relogio_bomba_um == 0 and bomba.relogio_bomba_dois == 0:
             menu.menu_fim(0)
@@ -234,24 +233,24 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
         if player.player_vivo_um == True:
             # estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
             if angulo_player_um == "baixo":
-                player.desenhar_player(matriz, player.player_baixo_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_baixo_um, player.player_y_um, player.player_x_um)
             elif angulo_player_um == "cima":
-                player.desenhar_player(matriz, player.player_cima_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_cima_um, player.player_y_um, player.player_x_um)
             elif angulo_player_um == "esquerda":
-                player.desenhar_player(matriz, player.player_esquerda_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_esquerda_um, player.player_y_um, player.player_x_um)
             elif angulo_player_um == "direita":
-                player.desenhar_player(matriz, player.player_direita_um, player.player_y_um, player.player_x_um)
+                player.desenhar_player(matrizes.matriz, player.player_direita_um, player.player_y_um, player.player_x_um)
 
         if player.player_vivo_dois == True:
             # estrutura de condição para decidir qual angulo do player deve ser desenhado na tela
             if angulo_player_dois == "baixo":
-                player.desenhar_player(matriz, player.player_baixo_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_baixo_dois, player.player_y_dois, player.player_x_dois)
             elif angulo_player_dois == "cima":
-                player.desenhar_player(matriz, player.player_cima_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_cima_dois, player.player_y_dois, player.player_x_dois)
             elif angulo_player_dois == "esquerda":
-                player.desenhar_player(matriz, player.player_esquerda_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_esquerda_dois, player.player_y_dois, player.player_x_dois)
             elif angulo_player_dois == "direita":
-                player.desenhar_player(matriz, player.player_direita_dois, player.player_y_dois, player.player_x_dois)
+                player.desenhar_player(matrizes.matriz, player.player_direita_dois, player.player_y_dois, player.player_x_dois)
 
         # estrutura para colocar a bomba para o lado que o player esta direcionad
 
@@ -283,9 +282,9 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
 
             # Desenhar e explodir a bomba
             if existe_bomba_um and tempo_decorrido < bomba.tempo_duracao_bomba_advanced:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+                bomba.desenhar_bomba(matrizes.matriz, bomba.bomba_y_um, bomba.bomba_x_um)
             elif existe_bomba_um and tempo_decorrido < bomba.tempo_duracao_bomba_advanced + bomba.tempo_explosão_bomba:
-                bomba.desenhar_explosao(matriz, bomba.bomba_y_um, bomba.bomba_x_um)
+                bomba.desenhar_explosao(matrizes.matriz, bomba.bomba_y_um, bomba.bomba_x_um)
                 menu.explosion_sound.play()
             elif existe_bomba_um and tempo_decorrido >= bomba.tempo_duracao_bomba_advanced + bomba.tempo_explosão_bomba:
                 # Resetar o estado após a explosão
@@ -324,10 +323,10 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
 
             # Lógica para desenhar e explodir a bomba
             if existe_bomba_dois and tempo_decorrido < bomba.tempo_duracao_bomba_advanced:
-                bomba.desenhar_bomba(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                bomba.desenhar_bomba(matrizes.matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
             elif (
                     existe_bomba_dois and tempo_decorrido < bomba.tempo_duracao_bomba_advanced + bomba.tempo_explosão_bomba):
-                bomba.desenhar_explosao(matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
+                bomba.desenhar_explosao(matrizes.matriz, bomba.bomba_y_dois, bomba.bomba_x_dois)
                 menu.explosion_sound.play()
             elif existe_bomba_dois and tempo_decorrido >= bomba.tempo_duracao_bomba_advanced + bomba.tempo_explosão_bomba:
                 # Resetar o estado após a explosão
@@ -336,75 +335,75 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
                 bomba.relogio_bomba_dois = 0
                 bomba.tempo_ativação_bomba_dois = None  # Indicar que a bomba não está ativa
 
-        matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+        matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
 
         if WConio2.kbhit():
             value, symbol = WConio2.getch()
 
             # movimenta e muda de angulo o player
-            if symbol in 'aA' and player.verificar_colisao(matriz, player.player_y_um, player.player_x_um - 1,
+            if symbol in 'aA' and player.verificar_colisao(matrizes.matriz, player.player_y_um, player.player_x_um - 1,
                                                            "esquerda"):
                 player.player_x_um -= 1
                 angulo_player_um = "esquerda"
-            elif symbol in 'dD' and player.verificar_colisao(matriz, player.player_y_um, player.player_x_um + 1,
+            elif symbol in 'dD' and player.verificar_colisao(matrizes.matriz, player.player_y_um, player.player_x_um + 1,
                                                              "direita"):
                 player.player_x_um += 1
                 angulo_player_um = "direita"
-            elif symbol in 'wW' and player.verificar_colisao(matriz, player.player_y_um - 1, player.player_x_um,
+            elif symbol in 'wW' and player.verificar_colisao(matrizes.matriz, player.player_y_um - 1, player.player_x_um,
                                                              "cima"):
                 player.player_y_um -= 1
                 angulo_player_um = "cima"
-            elif symbol in 'sS' and player.verificar_colisao(matriz, player.player_y_um + 1, player.player_x_um,
+            elif symbol in 'sS' and player.verificar_colisao(matrizes.matriz, player.player_y_um + 1, player.player_x_um,
                                                              "baixo"):
                 player.player_y_um += 1
                 angulo_player_um = "baixo"
 
             # player coloca a bomba no mapa
             elif symbol in 'fF':
-                if angulo_player_um == "esquerda" and bomba.verificar_colisao(matriz, player.player_y_um,
+                if angulo_player_um == "esquerda" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um,
                                                                               player.player_x_um - dimensao_jogo):
                     ativar_bomba_um = True
-                elif angulo_player_um == "direita" and bomba.verificar_colisao(matriz, player.player_y_um,
+                elif angulo_player_um == "direita" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um,
                                                                                player.player_x_um + dimensao_jogo):
                     ativar_bomba_um = True
-                elif angulo_player_um == "cima" and bomba.verificar_colisao(matriz, player.player_y_um - dimensao_jogo,
+                elif angulo_player_um == "cima" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um - dimensao_jogo,
                                                                             player.player_x_um):
                     ativar_bomba_um = True
-                elif angulo_player_um == "baixo" and bomba.verificar_colisao(matriz, player.player_y_um + dimensao_jogo,
+                elif angulo_player_um == "baixo" and bomba.verificar_colisao(matrizes.matriz, player.player_y_um + dimensao_jogo,
                                                                              player.player_x_um):
                     ativar_bomba_um = True
 
             # movimenta e muda de angulo o player
-            if symbol in '4' and player.verificar_colisao(matriz, player.player_y_dois, player.player_x_dois - 1,
+            if symbol in '4' and player.verificar_colisao(matrizes.matriz, player.player_y_dois, player.player_x_dois - 1,
                                                           "esquerda"):
                 player.player_x_dois -= 1
                 angulo_player_dois = "esquerda"
-            elif symbol in '6' and player.verificar_colisao(matriz, player.player_y_dois, player.player_x_dois + 1,
+            elif symbol in '6' and player.verificar_colisao(matrizes.matriz, player.player_y_dois, player.player_x_dois + 1,
                                                             "direita"):
                 player.player_x_dois += 1
                 angulo_player_dois = "direita"
-            elif symbol in '8' and player.verificar_colisao(matriz, player.player_y_dois - 1, player.player_x_dois,
+            elif symbol in '8' and player.verificar_colisao(matrizes.matriz, player.player_y_dois - 1, player.player_x_dois,
                                                             "cima"):
                 player.player_y_dois -= 1
                 angulo_player_dois = "cima"
-            elif symbol in '5' and player.verificar_colisao(matriz, player.player_y_dois + 1, player.player_x_dois,
+            elif symbol in '5' and player.verificar_colisao(matrizes.matriz, player.player_y_dois + 1, player.player_x_dois,
                                                             "baixo"):
                 player.player_y_dois += 1
                 angulo_player_dois = "baixo"
 
             # Player coloca a bomba no mapa
             elif symbol in 'mM':
-                if angulo_player_dois == "esquerda" and bomba.verificar_colisao(matriz, player.player_y_dois,
+                if angulo_player_dois == "esquerda" and bomba.verificar_colisao(matrizes.matriz, player.player_y_dois,
                                                                                 player.player_x_dois - dimensao_jogo):
                     ativar_bomba_dois = True
-                elif angulo_player_dois == "direita" and bomba.verificar_colisao(matriz, player.player_y_dois,
+                elif angulo_player_dois == "direita" and bomba.verificar_colisao(matrizes.matriz, player.player_y_dois,
                                                                                  player.player_x_dois + dimensao_jogo):
                     ativar_bomba_dois = True
-                elif angulo_player_dois == "cima" and bomba.verificar_colisao(matriz,
+                elif angulo_player_dois == "cima" and bomba.verificar_colisao(matrizes.matriz,
                                                                               player.player_y_dois - dimensao_jogo,
                                                                               player.player_x_dois):
                     ativar_bomba_dois = True
-                elif angulo_player_dois == "baixo" and bomba.verificar_colisao(matriz,
+                elif angulo_player_dois == "baixo" and bomba.verificar_colisao(matrizes.matriz,
                                                                                player.player_y_dois + dimensao_jogo,
                                                                                player.player_x_dois):
                     ativar_bomba_dois = True

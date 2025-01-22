@@ -1,7 +1,6 @@
 import WConio2
 import matrizes
 import player
-from matrizes import vazio, matriz_y, matriz_x, matriz
 import pygame
 import os
 pygame.init()
@@ -118,10 +117,10 @@ bomba_des = [
 def menu_pontuacao():
     while True:
         WConio2.gotoxy(0, 0)
-        matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
-        desenhar_PONTUACAO(matriz_x, matriz)
-        player.desenhar_pontuacoes(matriz_x, matriz)
-        matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+        matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
+        desenhar_PONTUACAO(matrizes.matriz_x, matrizes.matriz)
+        player.desenhar_pontuacoes(matrizes.matriz_x, matrizes.matriz)
+        matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
 
 
         if WConio2.kbhit():
@@ -250,16 +249,16 @@ def menu_fim(time):
     while True:
         if time < 1500:
             WConio2.gotoxy(0, 0)
-            matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
-            fim_jogo_player(matriz_x, matriz)
-            desenhar_logo(matriz_x, matriz, game_over)
-            matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+            matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
+            fim_jogo_player(matrizes.matriz_x, matrizes.matriz)
+            desenhar_logo(matrizes.matriz_x, matrizes.matriz, game_over)
+            matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
         elif 1000 <= time < 2500:
             WConio2.gotoxy(0, 0)
-            matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
-            fim_jogo_explosao(matriz_x, matriz)
-            desenhar_logo(matriz_x, matriz, game_over)
-            matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+            matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
+            fim_jogo_explosao(matrizes.matriz_x, matrizes.matriz)
+            desenhar_logo(matrizes.matriz_x, matrizes.matriz, game_over)
+            matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
         elif time >= 2500:
             time = 0
             break
