@@ -115,6 +115,20 @@ bomba_des = [
     " ▀▀▀ "
 ]
 
+def menu_pontuacao():
+    while True:
+        WConio2.gotoxy(0, 0)
+        matrizes.limpar_tela(matriz_y, matriz_x, vazio, matriz)
+        desenhar_PONTUACAO(matriz_x, matriz)
+        player.desenhar_pontuacoes(matriz_x, matriz)
+        matrizes.desenhar_tela(matriz_y, matriz_x, matriz)
+
+
+        if WConio2.kbhit():
+            value, symbol = WConio2.getch()
+            if symbol in 'pP':
+                return
+
 #Adicionei o parametro "imagem" para que possa ser usado em outros textos
 def desenhar_logo(matriz_x, matriz, imagem):
     '''
