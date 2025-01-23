@@ -23,6 +23,15 @@ contador = 1
 relogio = 0
 player_perdeu = 0
 
+tutorial = [
+    "████████╗██╗   ██╗████████╗ ██████╗ ██████╗ ██╗ █████╗ ██╗     ",
+    "╚══██╔══╝██║   ██║╚══██╔══╝██╔═══██╗██╔══██╗██║██╔══██╗██║     ",
+    "   ██║   ██║   ██║   ██║   ██║   ██║██████╔╝██║███████║██║     ",
+    "   ██║   ██║   ██║   ██║   ██║   ██║██╔══██╗██║██╔══██║██║     ",
+    "   ██║   ╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║██║  ██║███████╗",
+    "   ╚═╝    ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝"
+ ]
+
 logo = [
     " ██████╗  █████╗ ███╗   ███╗███████╗   ██████╗  ██████╗ ███╗   ███╗██████╗ ",
     "██╔════╝ ██╔══██╗████╗ ████║██╔════╝   ██╔══██╗██╔═══██╗████╗ ████║██╔══██╗",
@@ -54,6 +63,7 @@ opcoes = [
     "[Z] JOGAR MODO NORMAL  ",
     "[A] JOGAR MODO AVANÇADO",
     "[P] PONTUAÇÃO          ",
+    "[T] TUTORIAL           ",
     "[C] SAIR               "
 ]
 opcoes_pontuacao = [
@@ -61,6 +71,9 @@ opcoes_pontuacao = [
     "[R] RESETAR PONTUAÇÃO"
 ]
 
+opcoes_tutorial = [
+    "[T] VOLTAR MENU"
+]
 bomba_transicao = [
         "             . . .             " ,
         "              \|/              " ,
@@ -155,8 +168,72 @@ def menu_pontuacao():
                 tecla_sound.play()
                 return
 
+def menu_tutorial():
+    while True:
+        WConio2.gotoxy(0, 0)
+        matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
+
+        desenhar_TUTORIAL(matrizes.matriz_x, matrizes.matriz)
+        opcoes_tutorial_1(matrizes.matriz)
+        opcoes_tutorial_2(matrizes.matriz)
+        opcoes_tutorial_3(matrizes.matriz)
+        desenhar_bomba_pontuacao(matrizes.matriz)
+        desenhar_opcoes_tutorial(matrizes.matriz)
+        player.desenhar_player(matrizes.matriz, player.player_baixo_um, 20, 15)
+        player.desenhar_player(matrizes.matriz, player.player_baixo_dois, 20, 74)
+
+        matrizes.desenhar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.matriz)
+
+
+        if WConio2.kbhit():
+            value, symbol = WConio2.getch()
+            if symbol in 'Tt':
+                tecla_sound.play()
+                return            
+
+def opcoes_tutorial_1(matriz):
+    tutorial_texto = [
+        list("MOVIMENTAÇÕES PLAYER 1"),
+        list("W: CIMA   |   A: ESQUERDA"),
+        list("S: BAIXO  |   D: DIREITA"),
+        list("F: SOLTA A BOMBA")
+    ]
+    for i, linha in enumerate(tutorial_texto):
+        for j, caracter in enumerate(linha):
+            tutorial_texto[i][j] = f"\033[36m{caracter}\033[0m"
+    
+    for i, linha in enumerate(tutorial_texto):
+        for j, caractere in enumerate(linha):
+                matriz[25 + i][8 + j] = caractere
+
+def opcoes_tutorial_2(matriz):
+    tutorial_texto = [
+        list("MOVIMENTAÇÕES PLAYER 2"),
+        list("8: CIMA   |   4: ESQUERDA"),
+        list("5: BAIXO  |   6: DIREITA"),
+        list("M: SOLTA A BOMBA")
+    ]
+    for i, linha in enumerate(tutorial_texto):
+        for j, caracter in enumerate(linha):
+            tutorial_texto[i][j] = f"\033[91m{caracter}\033[0m"
+    
+    for i, linha in enumerate(tutorial_texto):
+        for j, caractere in enumerate(linha):
+                matriz[25 + i][65 + j] = caractere
+    
+def opcoes_tutorial_3(matriz):
+    tutorial_texto = ["CUIDADO!!! A BOMBA É PODEROSA, APENAS 1 BLOCO DE PAREDE NÃO VAI TE MANTER VIVO"]
+    centro = int((matrizes.matriz_x - len(tutorial_texto[0])) / 2) #encontra o índice da lista que deixará o texto no centro
+
+    
+    for i, linha in enumerate(tutorial_texto):
+        for j, caractere in enumerate(linha):
+                matriz[31 + i][centro + j] = caractere
+    
+
 def desenhar_bomba_pontuacao(matriz):
     centro = int((matrizes.matriz_x - len(bomba_pontuacao[0])) / 2) #encontra o índice da lista que deixará a logo no centro
+    
     for i, linha in enumerate(bomba_pontuacao):
         for j, caractere in enumerate(linha):
                 matriz[12 + i][centro + j] = caractere
@@ -174,6 +251,16 @@ def desenhar_opcoes_pontuacao(matriz):
                 matriz[33 + i][3 + j] = caractere
             if i == 1:
                 matriz[32 + i][71 + j] = caractere
+
+def desenhar_opcoes_tutorial(matriz):
+    '''
+        função que imprime a matriz das opções do menu na tela
+    '''
+    
+    for i, linha in enumerate(opcoes_tutorial):
+        for j, caractere in enumerate(linha):
+            if i == 0:
+                matriz[33 + i][3 + j] = caractere
 
 #Adicionei o parametro "imagem" para que possa ser usado em outros textos
 def desenhar_logo(matriz_x, matriz, imagem):
@@ -193,6 +280,16 @@ def desenhar_PONTUACAO(matriz_x, matriz):
     centro = int((matriz_x - len(PONTUACAO[0])) / 2)
 
     for i, linha in enumerate(PONTUACAO):
+        for j, caractere in enumerate(linha):
+            matriz[5 + i][centro + j] = caractere
+
+def desenhar_TUTORIAL(matriz_x, matriz):
+    '''
+        função que imprime a matriz do tutorial na tela
+    '''
+    centro = int((matriz_x - len(tutorial[0])) / 2)
+
+    for i, linha in enumerate(tutorial):
         for j, caractere in enumerate(linha):
             matriz[5 + i][centro + j] = caractere
 

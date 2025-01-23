@@ -50,6 +50,10 @@ if __name__ == '__main__':
                 menu.tecla_sound.play()
                 menu.menu_pontuacao()
 
+            elif symbol in 'Tt':
+                menu.tecla_sound.play()
+                menu.menu_tutorial()
+
 
             elif symbol in 'Cc':
                 menu.tecla_sound.play()
