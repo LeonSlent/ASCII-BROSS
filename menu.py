@@ -171,8 +171,8 @@ def menu_pontuacao():
                 return
 
             if symbol in 'rR':
-                player.pontuacao_player_um = 0
-                player.pontuacao_player_dois = 0
+                player.reiniciar_pontuacao()
+
 
 
 def desenhar_pontuacoes(matriz):
