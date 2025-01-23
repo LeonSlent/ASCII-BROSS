@@ -127,8 +127,6 @@ def calcular_pontuacoes():
         pontuacao_player_um = 0
         pontuacao_player_dois = 0
 
-
-
     if menu.player_perdeu == 1:
         pontuacao_player_dois += 1
         menu.player_perdeu = 0
@@ -140,6 +138,12 @@ def calcular_pontuacoes():
         arquivo_saida.write(f"{pontuacao_player_um}\n")
         arquivo_saida.write(f"{pontuacao_player_dois}\n")
 
+def reiniciar_pontuacao():
+    global pontuacao_player_um, pontuacao_player_dois
 
+    pontuacao_player_um = 0
+    pontuacao_player_dois = 0
 
-
+    with open("pontuacoes.txt", "w") as arquivo_saida:
+        arquivo_saida.write(f"{pontuacao_player_um}\n")
+        arquivo_saida.write(f"{pontuacao_player_dois}\n")
