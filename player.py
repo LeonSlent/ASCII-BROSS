@@ -127,46 +127,19 @@ def calcular_pontuacoes():
         pontuacao_player_um = 0
         pontuacao_player_dois = 0
 
-    #Reinicia a pontuacao ao apertar 'R'
-    if WConio2.kbhit():
-        value, symbol = WConio2.getch()
 
-        if symbol in 'rR':
-            pontuacao_player_um = 0
-            pontuacao_player_dois = 0
-                
+
     if menu.player_perdeu == 1:
         pontuacao_player_dois += 1
         menu.player_perdeu = 0
     elif menu.player_perdeu == 2:
         pontuacao_player_um += 1
         menu.player_perdeu = 0
-        
+
     with open("pontuacoes.txt", "w") as arquivo_saida:
         arquivo_saida.write(f"{pontuacao_player_um}\n")
         arquivo_saida.write(f"{pontuacao_player_dois}\n")
 
 
-def desenhar_pontuacoes(matriz):
-    calcular_pontuacoes()
-
-    pontuacao_texto = [
-        list(f"JOGADOR AZUL: {pontuacao_player_um}"),
-        list(f"JOGADOR VERMELHO: {pontuacao_player_dois}")
-    ]
-    for i, linha in enumerate(pontuacao_texto):
-        for y, caracter in enumerate(linha):
-            if i == 0:
-                pontuacao_texto[i][y] = f"\033[36m{caracter}\033[0m"
-            if i == 1:
-                pontuacao_texto[i][y] = f"\033[91m{caracter}\033[0m"
-
-
-    for i, linha in enumerate(pontuacao_texto):
-        for j, caractere in enumerate(linha):
-            if i == 0:
-                matriz[25 + i][10 + j] = caractere
-            if i == 1:
-                matriz[24 + i][67 + j] = caractere
 
 

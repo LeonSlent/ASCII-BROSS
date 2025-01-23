@@ -148,12 +148,14 @@ bomba_pontuacao = [
 
 
 def menu_pontuacao():
+
+
     while True:
         WConio2.gotoxy(0, 0)
         matrizes.limpar_tela(matrizes.matriz_y, matrizes.matriz_x, matrizes.vazio, matrizes.matriz)
 
         desenhar_PONTUACAO(matrizes.matriz_x, matrizes.matriz)
-        player.desenhar_pontuacoes(matrizes.matriz)
+        desenhar_pontuacoes(matrizes.matriz)
         desenhar_bomba_pontuacao(matrizes.matriz)
         desenhar_opcoes_pontuacao(matrizes.matriz)
         player.desenhar_player(matrizes.matriz, player.player_baixo_um, 20, 15)
@@ -167,6 +169,33 @@ def menu_pontuacao():
             if symbol in 'pP':
                 tecla_sound.play()
                 return
+
+            if symbol in 'rR':
+                player.pontuacao_player_um = 0
+                player.pontuacao_player_dois = 0
+
+
+def desenhar_pontuacoes(matriz):
+    pontuacao_texto = [
+        list(f"JOGADOR AZUL: {player.pontuacao_player_um}"),
+        list(f"JOGADOR VERMELHO: {player.pontuacao_player_dois}")
+    ]
+    for i, linha in enumerate(pontuacao_texto):
+        for y, caracter in enumerate(linha):
+            if i == 0:
+                pontuacao_texto[i][y] = f"\033[36m{caracter}\033[0m"
+            if i == 1:
+                pontuacao_texto[i][y] = f"\033[91m{caracter}\033[0m"
+
+
+    for i, linha in enumerate(pontuacao_texto):
+        for j, caractere in enumerate(linha):
+            if i == 0:
+                matriz[25 + i][10 + j] = caractere
+            if i == 1:
+                matriz[24 + i][67 + j] = caractere
+
+
 
 def menu_tutorial():
     while True:
