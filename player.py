@@ -1,6 +1,5 @@
 import matrizes
-import menu
-import WConio2
+
 
 #Player 1
 player_y_um = 0
@@ -127,12 +126,11 @@ def calcular_pontuacoes():
         pontuacao_player_um = 0
         pontuacao_player_dois = 0
 
-    if menu.player_perdeu == 1:
+    if not player_vivo_um and player_vivo_dois:
         pontuacao_player_dois += 1
-        menu.player_perdeu = 0
-    elif menu.player_perdeu == 2:
+
+    if not player_vivo_dois and player_vivo_um:
         pontuacao_player_um += 1
-        menu.player_perdeu = 0
 
     with open("pontuacoes.txt", "w") as arquivo_saida:
         arquivo_saida.write(f"{pontuacao_player_um}\n")

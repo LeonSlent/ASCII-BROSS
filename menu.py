@@ -4,6 +4,8 @@ import player
 import pygame
 import os
 import bomba
+
+
 pygame.init()
 pygame.mixer.init()
 #sons
@@ -21,7 +23,7 @@ tecla_sound.set_volume(0.7)
 
 contador = 1
 relogio = 0
-player_perdeu = 0
+
 
 tutorial = [
     "████████╗██╗   ██╗████████╗ ██████╗ ██████╗ ██╗ █████╗ ██╗     ",

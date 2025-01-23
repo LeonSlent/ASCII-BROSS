@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 game.gameplay(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
-                player.calcular_pontuacoes()
+                
 
             elif symbol in 'aA':
                 menu.tecla_sound.play()
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
                 menu.transicao_tela(menu.contador, menu.relogio)
                 game.gameplay_advanced(player.angulo_player_um, bomba.ativar_bomba_um, bomba.existe_bomba_um, player.angulo_player_dois, bomba.ativar_bomba_dois, bomba.existe_bomba_dois)
-                player.calcular_pontuacoes()
+                
 
 
             elif symbol in 'pP':

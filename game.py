@@ -23,6 +23,7 @@ def gameplay(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo_player_d
         mapa.desenhar_mapa(matrizes.matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.tempo_ativação_bomba_um == None and bomba.tempo_ativação_bomba_dois == None or player.player_vivo_dois == False and bomba.tempo_ativação_bomba_um == None and bomba.tempo_ativação_bomba_dois == None:
+            player.calcular_pontuacoes()
             menu.menu_fim(0)
             player.player_vivo_um = True
             player.player_vivo_dois = True
@@ -199,6 +200,7 @@ def gameplay_advanced(angulo_player_um, ativar_bomba_um, existe_bomba_um, angulo
         mapa.desenhar_mapa(matrizes.matriz, mapa.copia_cenario)
 
         if player.player_vivo_um == False and bomba.tempo_ativação_bomba_um == None and bomba.tempo_ativação_bomba_dois == None or player.player_vivo_dois == False and bomba.tempo_ativação_bomba_um == None and bomba.tempo_ativação_bomba_dois == None:
+            player.calcular_pontuacoes()
             menu.menu_fim(0)
             player.player_vivo_um = True
             player.player_vivo_dois = True
